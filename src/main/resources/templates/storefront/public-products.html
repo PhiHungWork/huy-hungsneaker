@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sản Phẩm - Huy and Hưng Sneaker</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Bootstrap CSS -->
@@ -21,6 +23,7 @@
             color: white;
             margin-bottom: 50px;
         }
+
         .page-title {
             font-size: 48px;
             font-weight: 900;
@@ -29,58 +32,69 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
+
         .breadcrumb {
             justify-content: center;
             background: transparent;
             padding: 0;
             margin: 0;
         }
+
         .breadcrumb-item a {
             color: white;
             text-decoration: none;
             font-weight: 600;
         }
+
         .breadcrumb-item.active {
             color: var(--gold-color);
         }
-        .breadcrumb-item + .breadcrumb-item::before {
+
+        .breadcrumb-item+.breadcrumb-item::before {
             color: rgba(255, 255, 255, 0.5);
         }
+
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
             transition: all 0.3s ease;
         }
+
         .product-card {
             background: white;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             display: flex;
             flex-direction: column;
             border: 1px solid #f0f0f0;
         }
+
         .product-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
         }
+
         .product-img-wrap {
             position: relative;
             overflow: hidden;
             background: #faf8f5;
         }
+
         .product-img {
             width: 100%;
             height: 280px;
             object-fit: cover;
             transition: transform 0.6s ease;
         }
+
         .product-card:hover .product-img {
             transform: scale(1.08);
         }
+
         /* Quick View Button overlay */
         .quick-view-overlay {
             position: absolute;
@@ -91,11 +105,13 @@
             justify-content: center;
             padding: 15px;
             transition: bottom 0.3s ease;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
         }
+
         .product-card:hover .quick-view-overlay {
             bottom: 0;
         }
+
         .btn-quick-view {
             background: rgba(255, 255, 255, 0.95);
             color: var(--black-color);
@@ -105,20 +121,22 @@
             font-weight: 700;
             font-size: 14px;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+
         .btn-quick-view:hover {
             background: var(--gold-color);
             color: white;
             transform: scale(1.05);
         }
-        
+
         .product-info {
             padding: 24px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
+
         .product-brand {
             font-size: 13px;
             color: #888;
@@ -127,6 +145,7 @@
             letter-spacing: 1px;
             margin-bottom: 8px;
         }
+
         .product-name {
             font-size: 19px;
             font-weight: 800;
@@ -139,12 +158,14 @@
             overflow: hidden;
             flex-grow: 1;
         }
+
         .product-price {
             font-size: 20px;
             font-weight: 900;
             color: #e53935;
             margin-bottom: 20px;
         }
+
         .btn-detail {
             display: block;
             width: 100%;
@@ -160,11 +181,13 @@
             font-size: 15px;
             letter-spacing: 0.5px;
         }
+
         .btn-detail:hover {
             background: var(--gold-color);
             color: var(--black-color);
-            box-shadow: 0 5px 15px rgba(251,140,0,0.3);
+            box-shadow: 0 5px 15px rgba(251, 140, 0, 0.3);
         }
+
         .badge-status {
             position: absolute;
             top: 15px;
@@ -177,8 +200,9 @@
             font-size: 12px;
             text-transform: uppercase;
             z-index: 2;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+
         /* Custom Checkbox */
         .filter-checkbox {
             accent-color: var(--black-color);
@@ -186,6 +210,7 @@
             height: 18px;
             cursor: pointer;
         }
+
         .filter-label {
             font-weight: 600;
             color: #444;
@@ -193,11 +218,13 @@
             margin-left: 8px;
             font-size: 15px;
         }
+
         .filter-label:hover {
             color: var(--gold-color);
         }
+
         .promo-caption {
-            background: rgba(0,0,0,0.68);
+            background: rgba(0, 0, 0, 0.68);
             padding: 28px 30px;
             border-radius: 20px;
             bottom: 60px;
@@ -211,6 +238,7 @@
             justify-content: center;
             text-align: center;
         }
+
         .promo-caption h2 {
             font-weight: 900;
             color: var(--gold-color);
@@ -219,6 +247,7 @@
             margin-bottom: 10px;
             line-height: 1.2;
         }
+
         .promo-caption p {
             font-size: 18px;
             font-weight: 500;
@@ -226,392 +255,498 @@
         }
     </style>
 </head>
+
 <body>
 
-<div id="hh-nav-wrap" style="background: transparent;">
-    <nav class="hh-navbar">
-        <a class="hh-logo" href="/" title="Huy & Hưng Sneaker">
-            <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 40px; object-fit: contain;">
-        </a>
-
-        <div class="hh-links">
-            <div class="hh-dropdown">
-                <a href="/products" class="menu-item active" style="color: var(--gold-color);">Sản Phẩm <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></a>
-                <div class="hh-dropdown-panel">
-                    <div class="dd-col-left">
-                        <a href="/products/brand/nike" class="dd-cat dd-active">Nike Basketball <i class="fa-solid fa-angle-right"></i></a>
-                        <a href="/products/brand/adidas" class="dd-cat">Adidas Originals <i class="fa-solid fa-angle-right"></i></a>
-                        <a href="/products/brand/jordan" class="dd-cat">Air Jordan Hot <i class="fa-solid fa-angle-right"></i></a>
-                    </div>
-                    <div class="dd-col-right" id="dd-sneaker-list">
-                        <a href="/products/nike-af1">Nike Air Force 1</a>
-                        <a href="/products/nike-dunk">Nike Dunk Low</a>
-                        <a href="/products/adidas-samba">Adidas Samba OG</a>
-                        <a href="/products/adidas-campus">Adidas Campus 00s</a>
-                        <a href="/products/jordan-1">Air Jordan 1 High</a>
-                        <a href="/products/jordan-4">Air Jordan 4 Retro</a>
-                    </div>
-                </div>
-            </div>
-            <a href="/bo-suu-tap" class="menu-item">Bộ Sưu Tập</a>
-            <a href="/chinh-sach" class="menu-item">Chính Sách Đổi Trả</a>
-            <a href="/orders/track" class="menu-item">Tra cứu đơn</a>
-            <a href="/about-us" class="menu-item">Về Chúng Tôi</a>
-        </div>
-
-        <div class="hh-nav-right d-flex align-items-center gap-3">
-            <a href="/cart" class="cart-icon-btn" style="position: relative; color: var(--black-color); text-decoration: none; font-size: 20px; margin-right: 15px;">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="cart-badge" style="position: absolute; top: -8px; right: -10px; background: #e53935; color: white; border-radius: 50%; font-size: 11px; font-weight: 800; padding: 2px 6px;" th:text="${@shoppingCart.itemCount}">0</span>
+    <div id="hh-nav-wrap" style="background: transparent;">
+        <nav class="hh-navbar">
+            <a class="hh-logo" href="/" title="Huy & Hưng Sneaker">
+                <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo"
+                    style="height: 40px; object-fit: contain;">
             </a>
-            
-            <div sec:authorize="isAnonymous()">
-                <a href="/login" class="hh-btn-quote text-decoration-none">
-                    Quản trị
-                    <div class="qa-circle"><i class="fa-solid fa-user"></i></div>
-                </a>
-            </div>
-            
-            <div sec:authorize="isAuthenticated()" class="d-flex align-items-center" style="display: flex; align-items: center; gap: 12px;">
-                <span class="fw-bold px-2 text-white" style="font-weight: 700;">Hi, <span sec:authentication="name"></span></span>
-                <a sec:authorize="hasAnyRole('ADMIN', 'STAFF')" href="/dashboard" class="btn-auth btn-auth-outline" style="border-color: rgba(255,255,255,0.2); color: white;">Quản trị</a>
-                <form th:action="@{/logout}" method="post" class="m-0" style="margin: 0;">
-                    <button type="submit" class="btn-auth btn-auth-solid">Đăng xuất</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-</div>
 
-<!-- Promotional Carousel Banner -->
-<div id="promoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500" data-bs-pause="false" style="margin-top: 0; margin-bottom: 50px;">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2"></button>
-    </div>
-    <div class="carousel-inner">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1920" class="d-block w-100" alt="Nike Promo" style="height: 100vh; object-fit: cover;">
-            <div class="carousel-caption d-none d-md-block promo-caption">
-                <h2>Mùa Hè Sôi Động Cùng Nike</h2>
-                <p>Giảm giá lên đến 30% cho các dòng giày chạy bộ Nike. Đừng bỏ lỡ cơ hội sở hữu ngay!</p>
-                <a href="#productGrid" class="btn btn-light fw-bold px-4 py-2 mt-2" style="border-radius: 30px;">Khám Phá Ngay</a>
-            </div>
-        </div>
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-            <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?q=80&w=1920" class="d-block w-100" alt="Adidas Promo" style="height: 100vh; object-fit: cover;">
-            <div class="carousel-caption d-none d-md-block promo-caption">
-                <h2>Adidas NMD R1 V2</h2>
-                <p>Trải nghiệm độ êm tối ưu với đệm Boost danh tiếng. Phong cách đường phố cực chất.</p>
-                <a href="#productGrid" class="btn btn-light fw-bold px-4 py-2 mt-2" style="border-radius: 30px;">Mua ngay</a>
-            </div>
-        </div>
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-            <img src="https://images.unsplash.com/photo-1552346154-21d32810baa3?q=80&w=1920" class="d-block w-100" alt="Jordan Promo" style="height: 100vh; object-fit: cover;">
-            <div class="carousel-caption d-none d-md-block promo-caption">
-                <h2>Huyền Thoại Air Jordan</h2>
-                <p>Vượt thời gian và phong cách. Hãy sở hữu một đôi Air Jordan để khẳng định cá tính.</p>
-                <a href="#productGrid" class="btn btn-light fw-bold px-4 py-2 mt-2" style="border-radius: 30px;">Khám Phá</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Category Title -->
-<div class="container text-center mb-5">
-    <h1 class="page-title" style="color: var(--black-color); font-size: 40px; text-transform: uppercase; font-weight: 900; margin-bottom: 10px;">Tất Cả Sản Phẩm</h1>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb" style="justify-content: center; background: transparent;">
-            <li class="breadcrumb-item"><a href="/" style="color: #666; font-weight: 600; text-decoration: none;">Trang Chủ</a></li>
-            <li class="breadcrumb-item active" aria-current="page" style="color: var(--gold-color); font-weight: 700;">Sản Phẩm</li>
-        </ol>
-    </nav>
-</div>
-
-<!-- Products Grid -->
-<div class="container" style="padding: 0 15px 80px 15px; margin: 0 auto;">
-    <div class="row">
-        <!-- Sidebar Filter -->
-        <div class="col-lg-3 d-none d-lg-block">
-            <div style="background: #fff; padding: 24px; border-radius: 16px; position: sticky; top: 100px; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
-                <h4 style="font-weight: 800; font-size: 20px; margin-bottom: 20px; border-bottom: 2px solid #f5f5f5; padding-bottom: 15px; color: var(--black-color);">Lọc Sản Phẩm</h4>
-                
-                <div style="margin-bottom: 24px;">
-                    <h5 style="font-weight: 800; font-size: 16px; margin-bottom: 15px; color: #333;">Thương Hiệu</h5>
-                    <div class="form-check d-flex align-items-center" style="margin-bottom: 12px;">
-                        <input class="filter-checkbox brand-filter" type="checkbox" value="Nike" id="brandNike">
-                        <label class="form-check-label filter-label" for="brandNike">Nike</label>
-                    </div>
-                    <div class="form-check d-flex align-items-center" style="margin-bottom: 12px;">
-                        <input class="filter-checkbox brand-filter" type="checkbox" value="Adidas" id="brandAdidas">
-                        <label class="form-check-label filter-label" for="brandAdidas">Adidas</label>
-                    </div>
-                    <div class="form-check d-flex align-items-center" style="margin-bottom: 12px;">
-                        <input class="filter-checkbox brand-filter" type="checkbox" value="Jordan" id="brandJordan">
-                        <label class="form-check-label filter-label" for="brandJordan">Jordan</label>
-                    </div>
-                </div>
-                
-                <!-- Quick Reset -->
-                <button id="btnResetFilter" class="btn w-100" style="background: #f5f5f5; color: #555; font-weight: 700; border-radius: 8px;">Xóa Bộ Lọc</button>
-            </div>
-        </div>
-
-        <!-- Product List -->
-        <div class="col-lg-9">
-            <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid #eee;">
-                <div style="font-weight: 600; color: #666; font-size: 16px;">
-                    Hiển thị <span id="productCount" th:text="${products.size()}" style="color: var(--black-color); font-weight: 800;"></span> sản phẩm
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                    <span style="font-weight: 600; color: #555; font-size: 15px;">Sắp xếp:</span>
-                    <select id="sortSelect" class="form-select form-select-sm" style="width: auto; font-weight: 600; border-radius: 8px; padding: 8px 30px 8px 12px; cursor: pointer; border: 2px solid #eee;">
-                        <option value="newest" selected>Mới nhất</option>
-                        <option value="price-asc">Giá: Thấp đến Cao</option>
-                        <option value="price-desc">Giá: Cao xuống Thấp</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="product-grid" id="productGrid">
-                <!-- Each product is given data attributes for JS filtering and sorting -->
-                <div class="product-card item-card" th:each="product : ${products}" 
-                     th:data-brand="${product.brand}" 
-                     th:data-price="${product.price}" 
-                     th:data-id="${product.id}"
-                     th:data-code="${product.code}"
-                     th:data-name="${product.name}"
-                     th:data-img="${product.imageUrl}"
-                     th:data-status="${product.status}">
-                     
-                    <div class="badge-status" th:if="${product.status == 'ACTIVE'}">Sẵn Hàng</div>
-                    <div class="badge-status" style="background: #e53935; color: white;" th:if="${product.status == 'OUT_OF_STOCK'}">Hết Hàng</div>
-                    
-                    <div class="product-img-wrap">
-                        <a th:href="@{/products/{code}(code=${product.code})}">
-                            <img th:src="${product.imageUrl}" class="product-img" th:alt="${product.name}" onerror="this.src='https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600'">
-                        </a>
-                        <div class="quick-view-overlay">
-                            <!-- In a real app we'd fetch variants via Ajax, but here we just redirect to detail page for Quick View, OR just show a simple quick view -->
-                            <a th:href="@{/products/{code}(code=${product.code})}" class="btn-quick-view text-decoration-none">
-                                <i class="fa-solid fa-eye me-1"></i> Xem Nhanh
-                            </a>
+            <div class="hh-links">
+                <div class="hh-dropdown">
+                    <a href="/products" class="menu-item active" style="color: var(--gold-color);">Sản Phẩm <i
+                            class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></a>
+                    <div class="hh-dropdown-panel">
+                        <div class="dd-col-left">
+                            <a href="/products/brand/nike" class="dd-cat dd-active">Nike Basketball <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                            <a href="/products/brand/adidas" class="dd-cat">Adidas Originals <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                            <a href="/products/brand/jordan" class="dd-cat">Air Jordan Hot <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                        </div>
+                        <div class="dd-col-right" id="dd-sneaker-list">
+                            <a href="/products/nike-af1">Nike Air Force 1</a>
+                            <a href="/products/nike-dunk">Nike Dunk Low</a>
+                            <a href="/products/adidas-samba">Adidas Samba OG</a>
+                            <a href="/products/adidas-campus">Adidas Campus 00s</a>
+                            <a href="/products/jordan-1">Air Jordan 1 High</a>
+                            <a href="/products/jordan-4">Air Jordan 4 Retro</a>
                         </div>
                     </div>
-                    
-                    <div class="product-info">
-                        <div class="product-brand" th:text="${product.brand}">Brand</div>
-                        <a th:href="@{/products/{code}(code=${product.code})}" style="text-decoration: none;">
-                            <h3 class="product-name" th:text="${product.name}">Tên sản phẩm</h3>
-                        </a>
-                        <!-- Data attribute price is plain number, display price is formatted -->
-                        <div class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">1,000,000 VNĐ</div>
-                        
-                        <a th:href="@{/products/{code}(code=${product.code})}" class="btn-detail">Xem Chi Tiết</a>
+                </div>
+                <a href="/bo-suu-tap" class="menu-item">Bộ Sưu Tập</a>
+                <a href="/chinh-sach" class="menu-item">Chính Sách Đổi Trả</a>
+                <a href="/orders/track" class="menu-item">Tra cứu đơn</a>
+                <a href="/about-us" class="menu-item">Về Chúng Tôi</a>
+            </div>
+
+            <div class="hh-nav-right d-flex align-items-center gap-3">
+                <a href="/cart" class="cart-icon-btn"
+                    style="position: relative; color: var(--black-color); text-decoration: none; font-size: 20px; margin-right: 15px;">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-badge"
+                        style="position: absolute; top: -8px; right: -10px; background: #e53935; color: white; border-radius: 50%; font-size: 11px; font-weight: 800; padding: 2px 6px;"
+                        th:text="${@shoppingCart.itemCount}">0</span>
+                </a>
+
+                <div sec:authorize="isAnonymous()">
+                    <a href="/login" class="hh-btn-quote text-decoration-none">
+                        Quản trị
+                        <div class="qa-circle"><i class="fa-solid fa-user"></i></div>
+                    </a>
+                </div>
+
+                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center"
+                    style="display: flex; align-items: center; gap: 12px;">
+                    <span class="fw-bold px-2 text-white" style="font-weight: 700;">Hi, <span
+                            sec:authentication="name"></span></span>
+                    <a sec:authorize="hasAnyRole('ADMIN', 'STAFF')" href="/dashboard" class="btn-auth btn-auth-outline"
+                        style="border-color: rgba(255,255,255,0.2); color: white;">Quản trị</a>
+                    <form th:action="@{/logout}" method="post" class="m-0" style="margin: 0;">
+                        <button type="submit" class="btn-auth btn-auth-solid">Đăng xuất</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Promotional Carousel Banner -->
+    <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500" data-bs-pause="false"
+        style="margin-top: 0; margin-bottom: 50px;">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1920"
+                    class="d-block w-100" alt="Nike Promo" style="height: 100vh; object-fit: cover;">
+                <div class="carousel-caption d-none d-md-block promo-caption">
+                    <h2>Mùa Hè Sôi Động Cùng Nike</h2>
+                    <p>Giảm giá lên đến 30% cho các dòng giày chạy bộ Nike. Đừng bỏ lỡ cơ hội sở hữu ngay!</p>
+                    <a href="#productGrid" class="btn btn-light fw-bold px-4 py-2 mt-2"
+                        style="border-radius: 30px;">Khám Phá Ngay</a>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?q=80&w=1920"
+                    class="d-block w-100" alt="Adidas Promo" style="height: 100vh; object-fit: cover;">
+                <div class="carousel-caption d-none d-md-block promo-caption">
+                    <h2>Adidas NMD R1 V2</h2>
+                    <p>Trải nghiệm độ êm tối ưu với đệm Boost danh tiếng. Phong cách đường phố cực chất.</p>
+                    <a href="#productGrid" class="btn btn-light fw-bold px-4 py-2 mt-2" style="border-radius: 30px;">Mua
+                        ngay</a>
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780428686/banner_qmg1c1.png"
+                    class="d-block w-100" alt="Jordan Promo" style="height: 100vh; object-fit: cover;">
+                <div class="carousel-caption d-none d-md-block promo-caption">
+                    <h2>Huyền Thoại Air Jordan</h2>
+                    <p>Vượt thời gian và phong cách. Hãy sở hữu một đôi Air Jordan để khẳng định cá tính.</p>
+                    <a href="#productGrid" class="btn btn-light fw-bold px-4 py-2 mt-2"
+                        style="border-radius: 30px;">Khám Phá</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Title -->
+    <div class="container text-center mb-5">
+        <h1 class="page-title"
+            style="color: var(--black-color); font-size: 40px; text-transform: uppercase; font-weight: 900; margin-bottom: 10px;">
+            Tất Cả Sản Phẩm</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" style="justify-content: center; background: transparent;">
+                <li class="breadcrumb-item"><a href="/"
+                        style="color: #666; font-weight: 600; text-decoration: none;">Trang Chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page"
+                    style="color: var(--gold-color); font-weight: 700;">Sản Phẩm</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="container" style="padding: 0 15px 80px 15px; margin: 0 auto;">
+        <div class="row">
+            <!-- Sidebar Filter -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div
+                    style="background: #fff; padding: 24px; border-radius: 16px; position: sticky; top: 100px; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                    <h4
+                        style="font-weight: 800; font-size: 20px; margin-bottom: 20px; border-bottom: 2px solid #f5f5f5; padding-bottom: 15px; color: var(--black-color);">
+                        Lọc Sản Phẩm</h4>
+
+                    <div style="margin-bottom: 24px;">
+                        <h5 style="font-weight: 800; font-size: 16px; margin-bottom: 15px; color: #333;">Thương Hiệu
+                        </h5>
+                        <div class="form-check d-flex align-items-center" style="margin-bottom: 12px;">
+                            <input class="filter-checkbox brand-filter" type="checkbox" value="Nike" id="brandNike">
+                            <label class="form-check-label filter-label" for="brandNike">Nike</label>
+                        </div>
+                        <div class="form-check d-flex align-items-center" style="margin-bottom: 12px;">
+                            <input class="filter-checkbox brand-filter" type="checkbox" value="Adidas" id="brandAdidas">
+                            <label class="form-check-label filter-label" for="brandAdidas">Adidas</label>
+                        </div>
+                        <div class="form-check d-flex align-items-center" style="margin-bottom: 12px;">
+                            <input class="filter-checkbox brand-filter" type="checkbox" value="Jordan" id="brandJordan">
+                            <label class="form-check-label filter-label" for="brandJordan">Jordan</label>
+                        </div>
+                    </div>
+
+                    <!-- Quick Reset -->
+                    <button id="btnResetFilter" class="btn w-100"
+                        style="background: #f5f5f5; color: #555; font-weight: 700; border-radius: 8px;">Xóa Bộ
+                        Lọc</button>
+                </div>
+            </div>
+
+            <!-- Product List -->
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3"
+                    style="border-bottom: 1px solid #eee;">
+                    <div style="font-weight: 600; color: #666; font-size: 16px;">
+                        Hiển thị <span id="productCount" th:text="${products.size()}"
+                            style="color: var(--black-color); font-weight: 800;"></span> sản phẩm
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span style="font-weight: 600; color: #555; font-size: 15px;">Sắp xếp:</span>
+                        <select id="sortSelect" class="form-select form-select-sm"
+                            style="width: auto; font-weight: 600; border-radius: 8px; padding: 8px 30px 8px 12px; cursor: pointer; border: 2px solid #eee;">
+                            <option value="newest" selected>Mới nhất</option>
+                            <option value="price-asc">Giá: Thấp đến Cao</option>
+                            <option value="price-desc">Giá: Cao xuống Thấp</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="product-grid" id="productGrid">
+                    <!-- Each product is given data attributes for JS filtering and sorting -->
+                    <div class="product-card item-card" th:each="product : ${products}" th:data-brand="${product.brand}"
+                        th:data-price="${product.price}" th:data-id="${product.id}" th:data-code="${product.code}"
+                        th:data-name="${product.name}" th:data-img="${product.imageUrl}"
+                        th:data-status="${product.status}">
+
+                        <div class="badge-status" th:if="${product.status == 'ACTIVE'}">Sẵn Hàng</div>
+                        <div class="badge-status" style="background: #e53935; color: white;"
+                            th:if="${product.status == 'OUT_OF_STOCK'}">Hết Hàng</div>
+
+                        <div class="product-img-wrap">
+                            <a th:href="@{/products/{code}(code=${product.code})}">
+                                <img th:src="${product.imageUrl}" class="product-img" th:alt="${product.name}"
+                                    onerror="this.src='https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600'">
+                            </a>
+                            <div class="quick-view-overlay">
+                                <!-- In a real app we'd fetch variants via Ajax, but here we just redirect to detail page for Quick View, OR just show a simple quick view -->
+                                <a th:href="@{/products/{code}(code=${product.code})}"
+                                    class="btn-quick-view text-decoration-none">
+                                    <i class="fa-solid fa-eye me-1"></i> Xem Nhanh
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="product-info">
+                            <div class="product-brand" th:text="${product.brand}">Brand</div>
+                            <a th:href="@{/products/{code}(code=${product.code})}" style="text-decoration: none;">
+                                <h3 class="product-name" th:text="${product.name}">Tên sản phẩm</h3>
+                            </a>
+                            <!-- Data attribute price is plain number, display price is formatted -->
+                            <div class="product-price"
+                                th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                1,000,000 VNĐ</div>
+
+                            <a th:href="@{/products/{code}(code=${product.code})}" class="btn-detail">Xem Chi Tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="noProductsMsg" class="text-center"
+                    style="display: none; padding: 80px 20px; background: #fff; border-radius: 16px; border: 1px dashed #ccc;">
+                    <i class="fa-solid fa-box-open" style="font-size: 60px; color: #ddd; margin-bottom: 20px;"></i>
+                    <h3 style="font-weight: 800; color: #777;">Không tìm thấy sản phẩm phù hợp</h3>
+                    <p style="color: #999; font-weight: 500;">Vui lòng thử bỏ chọn một số bộ lọc thương hiệu.</p>
+                    <button class="btn btn-outline-dark mt-3 fw-bold"
+                        onclick="document.getElementById('btnResetFilter').click()">Xóa Bộ Lọc</button>
+                </div>
+
+                <div th:if="${#lists.isEmpty(products)}" class="text-center"
+                    style="padding: 80px 20px; background: #fff; border-radius: 16px; border: 1px dashed #ccc;">
+                    <i class="fa-solid fa-box-open" style="font-size: 60px; color: #ddd; margin-bottom: 20px;"></i>
+                    <h3 style="font-weight: 800; color: #777;">Chưa có sản phẩm nào trong hệ thống</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 11: Footer toàn diện -->
+    <footer
+        style="background: var(--black-color); color: #888; padding: 100px 0 40px 0; border-top: 1px solid #222; box-sizing: border-box; position: relative; overflow: hidden;">
+        <!-- Abstract BG Glow -->
+        <div
+            style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(251,140,0,0.05) 0%, transparent 70%); z-index: 0;">
+        </div>
+
+        <div class="container-wrap"
+            style="padding: 0 5%; max-width: 1440px; margin: 0 auto; box-sizing: border-box; position: relative; z-index: 1;">
+            <!-- Newsletter Section -->
+            <div
+                style="background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 1px solid #333; border-radius: 24px; padding: 40px; margin-bottom: 80px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                <div style="flex: 1; min-width: 300px;">
+                    <h3 style="color: white; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">Đăng Ký Nhận Tin
+                        Khuyến Mãi</h3>
+                    <p style="color: #aaa; margin: 0; font-size: 15.5px; line-height: 1.6;">Nhận ngay voucher giảm giá
+                        15% cho đơn hàng đầu tiên của bạn.</p>
+                </div>
+                <div style="flex: 1; min-width: 300px; max-width: 500px; position: relative;">
+                    <input type="email" placeholder="Nhập email của bạn..."
+                        style="width: 100%; background: #222; border: 1px solid #444; color: white; padding: 16px 160px 16px 24px; border-radius: 50px; font-size: 15.5px; outline: none; box-sizing: border-box;">
+                    <button
+                        style="position: absolute; right: 6px; top: 6px; bottom: 6px; background: var(--gold-color); color: white; border: none; border-radius: 50px; padding: 0 32px; font-weight: 800; font-size: 14.5px; cursor: pointer; transition: background 0.3s;">ĐĂNG
+                        KÝ</button>
+                </div>
+            </div>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 50px; margin-bottom: 60px;">
+                <!-- Column 1: Brand Info -->
+                <div style="display: flex; flex-direction: column;">
+                    <a class="hh-logo" href="/"
+                        style="display: inline-block; margin-bottom: 24px; text-decoration: none;">
+                        <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png"
+                            alt="H&H Logo" style="height: 48px; object-fit: contain;">
+                    </a>
+                    <p style="font-size: 15.5px; line-height: 1.8; color: #aaa; margin-bottom: 30px;">Hệ thống phân phối
+                        giày Sneaker thời trang cao cấp, cam kết chất lượng chuẩn Authentic, bảo hành lỗi keo chỉ 6
+                        tháng, uy tín hàng đầu Việt Nam.</p>
+                    <div style="display: flex; gap: 16px;">
+                        <a href="#"
+                            style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                            onmouseover="this.style.background='var(--gold-color)'"
+                            onmouseout="this.style.background='#222'"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                            onmouseover="this.style.background='var(--gold-color)'"
+                            onmouseout="this.style.background='#222'"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                            onmouseover="this.style.background='var(--gold-color)'"
+                            onmouseout="this.style.background='#222'"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#"
+                            style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                            onmouseover="this.style.background='var(--gold-color)'"
+                            onmouseout="this.style.background='#222'"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: About Us -->
+                <div>
+                    <h4
+                        style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Về Chúng Tôi</h4>
+                    <ul
+                        style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                        <li><a href="/about-us"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Câu Chuyện Thương Hiệu</a></li>
+                        <li><a href="#products"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Bộ Sưu Tập Mới</a></li>
+                        <li><a href="/blogs"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Tin Tức Sneaker</a></li>
+                        <li><a href="/tuyen-dung"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Tuyển Dụng</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Customer Support -->
+                <div>
+                    <h4
+                        style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Hỗ Trợ Khách Hàng</h4>
+                    <ul
+                        style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                        <li><a href="/chinh-sach"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Chính Sách Đổi Trả</a></li>
+                        <li><a href="/chinh-sach"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Chính Sách Bảo Hành</a></li>
+                        <li><a href="#huong-dan-size"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Hướng Dẫn Chọn Size</a></li>
+                        <li><a href="/faq"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Câu Hỏi Thường Gặp (FAQ)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact & Maps -->
+                <div style="grid-column: span auto;">
+                    <h4
+                        style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Địa Chỉ Cửa Hàng</h4>
+                    <div
+                        style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; color: #aaa; font-size: 15.5px; font-weight: 500; line-height: 1.6;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px;"><i
+                                class="fa-solid fa-location-dot" style="color: var(--gold-color); margin-top: 4px;"></i>
+                            <span>Trường Đại học Công Thương TP.HCM<br>140 Lê Trọng Tấn, P. Tây Thạnh, Q. Tân Phú</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-phone"
+                                style="color: var(--gold-color);"></i> <span>Hotline: 0987.654.321</span></div>
+                        <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-envelope"
+                                style="color: var(--gold-color);"></i> <span>support@huyhung-sneaker.com</span></div>
+                    </div>
+
+                    <!-- Google Maps Embed -->
+                    <div
+                        style="border-radius: 16px; overflow: hidden; height: 160px; width: 100%; border: 1px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                        <iframe src="https://www.google.com/maps?q=10.806159,106.626091&z=17&output=embed" width="100%"
+                            height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
-            
-            <div id="noProductsMsg" class="text-center" style="display: none; padding: 80px 20px; background: #fff; border-radius: 16px; border: 1px dashed #ccc;">
-                <i class="fa-solid fa-box-open" style="font-size: 60px; color: #ddd; margin-bottom: 20px;"></i>
-                <h3 style="font-weight: 800; color: #777;">Không tìm thấy sản phẩm phù hợp</h3>
-                <p style="color: #999; font-weight: 500;">Vui lòng thử bỏ chọn một số bộ lọc thương hiệu.</p>
-                <button class="btn btn-outline-dark mt-3 fw-bold" onclick="document.getElementById('btnResetFilter').click()">Xóa Bộ Lọc</button>
-            </div>
-            
-            <div th:if="${#lists.isEmpty(products)}" class="text-center" style="padding: 80px 20px; background: #fff; border-radius: 16px; border: 1px dashed #ccc;">
-                <i class="fa-solid fa-box-open" style="font-size: 60px; color: #ddd; margin-bottom: 20px;"></i>
-                <h3 style="font-weight: 800; color: #777;">Chưa có sản phẩm nào trong hệ thống</h3>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Section 11: Footer toàn diện -->
-<footer style="background: var(--black-color); color: #888; padding: 100px 0 40px 0; border-top: 1px solid #222; box-sizing: border-box; position: relative; overflow: hidden;">
-    <!-- Abstract BG Glow -->
-    <div style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(251,140,0,0.05) 0%, transparent 70%); z-index: 0;"></div>
-    
-    <div class="container-wrap" style="padding: 0 5%; max-width: 1440px; margin: 0 auto; box-sizing: border-box; position: relative; z-index: 1;">
-        <!-- Newsletter Section -->
-        <div style="background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 1px solid #333; border-radius: 24px; padding: 40px; margin-bottom: 80px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
-            <div style="flex: 1; min-width: 300px;">
-                <h3 style="color: white; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">Đăng Ký Nhận Tin Khuyến Mãi</h3>
-                <p style="color: #aaa; margin: 0; font-size: 15.5px; line-height: 1.6;">Nhận ngay voucher giảm giá 15% cho đơn hàng đầu tiên của bạn.</p>
-            </div>
-            <div style="flex: 1; min-width: 300px; max-width: 500px; position: relative;">
-                <input type="email" placeholder="Nhập email của bạn..." style="width: 100%; background: #222; border: 1px solid #444; color: white; padding: 16px 160px 16px 24px; border-radius: 50px; font-size: 15.5px; outline: none; box-sizing: border-box;">
-                <button style="position: absolute; right: 6px; top: 6px; bottom: 6px; background: var(--gold-color); color: white; border: none; border-radius: 50px; padding: 0 32px; font-weight: 800; font-size: 14.5px; cursor: pointer; transition: background 0.3s;">ĐĂNG KÝ</button>
-            </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 50px; margin-bottom: 60px;">
-            <!-- Column 1: Brand Info -->
-            <div style="display: flex; flex-direction: column;">
-                <a class="hh-logo" href="/" style="display: inline-block; margin-bottom: 24px; text-decoration: none;">
-                    <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 48px; object-fit: contain;">
-                </a>
-                <p style="font-size: 15.5px; line-height: 1.8; color: #aaa; margin-bottom: 30px;">Hệ thống phân phối giày Sneaker thời trang cao cấp, cam kết chất lượng chuẩn Authentic, bảo hành lỗi keo chỉ 6 tháng, uy tín hàng đầu Việt Nam.</p>
-                <div style="display: flex; gap: 16px;">
-                    <a href="#" style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;" onmouseover="this.style.background='var(--gold-color)'" onmouseout="this.style.background='#222'"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;" onmouseover="this.style.background='var(--gold-color)'" onmouseout="this.style.background='#222'"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;" onmouseover="this.style.background='var(--gold-color)'" onmouseout="this.style.background='#222'"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;" onmouseover="this.style.background='var(--gold-color)'" onmouseout="this.style.background='#222'"><i class="fa-brands fa-youtube"></i></a>
+            <div
+                style="border-top: 1px solid #222; padding-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+                <div style="font-size: 14.5px; color: #777; font-weight: 500;">
+                    &copy; 2026 Huy & Hưng Sneaker. Tất cả quyền được bảo lưu. Bản quyền thuộc về Đồ Án Số 7.
                 </div>
-            </div>
-            
-            <!-- Column 2: About Us -->
-            <div>
-                <h4 style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">Về Chúng Tôi</h4>
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
-                    <li><a href="/about-us" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Câu Chuyện Thương Hiệu</a></li>
-                    <li><a href="#products" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Bộ Sưu Tập Mới</a></li>
-                    <li><a href="/blogs" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Tin Tức Sneaker</a></li>
-                    <li><a href="/tuyen-dung" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Tuyển Dụng</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 3: Customer Support -->
-            <div>
-                <h4 style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">Hỗ Trợ Khách Hàng</h4>
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
-                    <li><a href="/chinh-sach" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Chính Sách Đổi Trả</a></li>
-                    <li><a href="/chinh-sach" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Chính Sách Bảo Hành</a></li>
-                    <li><a href="#huong-dan-size" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Hướng Dẫn Chọn Size</a></li>
-                    <li><a href="/faq" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Câu Hỏi Thường Gặp (FAQ)</a></li>
-                </ul>
-            </div>
-            
-            <!-- Column 4: Contact & Maps -->
-            <div style="grid-column: span auto;">
-                <h4 style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">Địa Chỉ Cửa Hàng</h4>
-                <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; color: #aaa; font-size: 15.5px; font-weight: 500; line-height: 1.6;">
-                    <div style="display: flex; align-items: flex-start; gap: 12px;"><i class="fa-solid fa-location-dot" style="color: var(--gold-color); margin-top: 4px;"></i> <span>Trường Đại học Công Thương TP.HCM<br>140 Lê Trọng Tấn, P. Tây Thạnh, Q. Tân Phú</span></div>
-                    <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-phone" style="color: var(--gold-color);"></i> <span>Hotline: 0987.654.321</span></div>
-                    <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-envelope" style="color: var(--gold-color);"></i> <span>support@huyhung-sneaker.com</span></div>
-                </div>
-                
-                <!-- Google Maps Embed -->
-                <div style="border-radius: 16px; overflow: hidden; height: 160px; width: 100%; border: 1px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
-                    <iframe src="https://www.google.com/maps?q=10.806159,106.626091&z=17&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <i class="fa-brands fa-cc-visa" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                    <i class="fa-brands fa-cc-mastercard"
+                        style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                    <i class="fa-brands fa-cc-paypal" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                    <i class="fa-brands fa-cc-apple-pay"
+                        style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
                 </div>
             </div>
         </div>
-        
-        <div style="border-top: 1px solid #222; padding-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
-            <div style="font-size: 14.5px; color: #777; font-weight: 500;">
-                &copy; 2026 Huy & Hưng Sneaker. Tất cả quyền được bảo lưu. Bản quyền thuộc về Đồ Án Số 7.
-            </div>
-            <div style="display: flex; gap: 12px; align-items: center;">
-                <i class="fa-brands fa-cc-visa" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
-                <i class="fa-brands fa-cc-mastercard" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
-                <i class="fa-brands fa-cc-paypal" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
-                <i class="fa-brands fa-cc-apple-pay" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
-            </div>
-        </div>
-    </div>
-</footer>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script th:src="@{/js/main.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
 
-<!-- Filter & Sort Script -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const promoCarouselEl = document.getElementById('promoCarousel');
-        if (promoCarouselEl && window.bootstrap) {
-            new bootstrap.Carousel(promoCarouselEl, {
-                interval: 3500,
-                ride: 'carousel',
-                pause: false,
-                wrap: true
-            });
-        }
-
-        const grid = document.getElementById('productGrid');
-        const cards = Array.from(grid.getElementsByClassName('item-card'));
-        const checkboxes = document.querySelectorAll('.brand-filter');
-        const sortSelect = document.getElementById('sortSelect');
-        const countSpan = document.getElementById('productCount');
-        const noMsg = document.getElementById('noProductsMsg');
-        const resetBtn = document.getElementById('btnResetFilter');
-
-        function updateGrid() {
-            // 1. Get selected brands
-            const selectedBrands = Array.from(checkboxes)
-                                      .filter(cb => cb.checked)
-                                      .map(cb => cb.value.toLowerCase());
-            
-            let visibleCount = 0;
-            let visibleCards = [];
-
-            // 2. Filter
-            cards.forEach(card => {
-                const brand = card.getAttribute('data-brand').toLowerCase();
-                // If no checkboxes checked, show all. Else show only if brand is in selectedBrands (partial match)
-                let show = false;
-                if (selectedBrands.length === 0) {
-                    show = true;
-                } else {
-                    show = selectedBrands.some(b => brand.includes(b));
-                }
-
-                if (show) {
-                    card.style.display = 'flex'; // our card is flex col
-                    visibleCount++;
-                    visibleCards.push(card);
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // 3. Sort visible cards
-            const sortVal = sortSelect.value;
-            if (sortVal === 'price-asc') {
-                visibleCards.sort((a, b) => parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price')));
-            } else if (sortVal === 'price-desc') {
-                visibleCards.sort((a, b) => parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price')));
-            } else {
-                // newest: keep original order (by id desc roughly)
-                visibleCards.sort((a, b) => parseInt(b.getAttribute('data-id')) - parseInt(a.getAttribute('data-id')));
+    <!-- Filter & Sort Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const promoCarouselEl = document.getElementById('promoCarousel');
+            if (promoCarouselEl && window.bootstrap) {
+                new bootstrap.Carousel(promoCarouselEl, {
+                    interval: 3500,
+                    ride: 'carousel',
+                    pause: false,
+                    wrap: true
+                });
             }
 
-            // Re-append to DOM to apply sort
-            visibleCards.forEach(card => grid.appendChild(card));
+            const grid = document.getElementById('productGrid');
+            const cards = Array.from(grid.getElementsByClassName('item-card'));
+            const checkboxes = document.querySelectorAll('.brand-filter');
+            const sortSelect = document.getElementById('sortSelect');
+            const countSpan = document.getElementById('productCount');
+            const noMsg = document.getElementById('noProductsMsg');
+            const resetBtn = document.getElementById('btnResetFilter');
 
-            // Update UI
-            countSpan.innerText = visibleCount;
-            if (visibleCount === 0 && cards.length > 0) {
-                noMsg.style.display = 'block';
-            } else {
-                noMsg.style.display = 'none';
+            function updateGrid() {
+                // 1. Get selected brands
+                const selectedBrands = Array.from(checkboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value.toLowerCase());
+
+                let visibleCount = 0;
+                let visibleCards = [];
+
+                // 2. Filter
+                cards.forEach(card => {
+                    const brand = card.getAttribute('data-brand').toLowerCase();
+                    // If no checkboxes checked, show all. Else show only if brand is in selectedBrands (partial match)
+                    let show = false;
+                    if (selectedBrands.length === 0) {
+                        show = true;
+                    } else {
+                        show = selectedBrands.some(b => brand.includes(b));
+                    }
+
+                    if (show) {
+                        card.style.display = 'flex'; // our card is flex col
+                        visibleCount++;
+                        visibleCards.push(card);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // 3. Sort visible cards
+                const sortVal = sortSelect.value;
+                if (sortVal === 'price-asc') {
+                    visibleCards.sort((a, b) => parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price')));
+                } else if (sortVal === 'price-desc') {
+                    visibleCards.sort((a, b) => parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price')));
+                } else {
+                    // newest: keep original order (by id desc roughly)
+                    visibleCards.sort((a, b) => parseInt(b.getAttribute('data-id')) - parseInt(a.getAttribute('data-id')));
+                }
+
+                // Re-append to DOM to apply sort
+                visibleCards.forEach(card => grid.appendChild(card));
+
+                // Update UI
+                countSpan.innerText = visibleCount;
+                if (visibleCount === 0 && cards.length > 0) {
+                    noMsg.style.display = 'block';
+                } else {
+                    noMsg.style.display = 'none';
+                }
             }
-        }
 
-        // Event Listeners
-        checkboxes.forEach(cb => cb.addEventListener('change', updateGrid));
-        sortSelect.addEventListener('change', updateGrid);
-        
-        resetBtn.addEventListener('click', function() {
-            checkboxes.forEach(cb => cb.checked = false);
-            sortSelect.value = 'newest';
+            // Event Listeners
+            checkboxes.forEach(cb => cb.addEventListener('change', updateGrid));
+            sortSelect.addEventListener('change', updateGrid);
+
+            resetBtn.addEventListener('click', function () {
+                checkboxes.forEach(cb => cb.checked = false);
+                sortSelect.value = 'newest';
+                updateGrid();
+            });
+
+            // Initial call
             updateGrid();
         });
-        
-        // Initial call
-        updateGrid();
-    });
-</script>
+    </script>
 
 </body>
+
 </html>
-
-
-
-
-
-
