@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huy and Hung Sneaker - Giày Sneaker Chính Hãng & Phong Cách Cực Chất</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <div class="scroll-progress" id="sProgress"></div>
+
+    <div id="hh-nav-wrap">
+        <nav class="hh-navbar">
+            <a class="hh-logo" href="/" title="Huy & Hung Sneaker">
+                <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 40px; object-fit: contain;">
+            </a>
+
+            <div class="hh-links">
+                <div class="hh-dropdown">
+                    <a href="/products">Sản Phẩm <i class="fa-solid fa-chevron-down"
+                            style="font-size:10px;margin-left:4px;"></i></a>
+                    <div class="hh-dropdown-panel">
+                        <div class="dd-col-left">
+                            <a href="/products/brand/nike" class="dd-cat dd-active">Nike Basketball <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                            <a href="/products/brand/adidas" class="dd-cat">Adidas Originals <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                            <a href="/products/brand/jordan" class="dd-cat">Air Jordan Hot <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                        </div>
+                        <div class="dd-col-right" id="dd-sneaker-list">
+                            <a href="/products/nike-af1">Nike Air Force 1</a>
+                            <a href="/products/nike-dunk">Nike Dunk Low</a>
+                            <a href="/products/adidas-samba">Adidas Samba OG</a>
+                            <a href="/products/adidas-campus">Adidas Campus 00s</a>
+                            <a href="/products/jordan-1">Air Jordan 1 High</a>
+                            <a href="/products/jordan-4">Air Jordan 4 Retro</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="/bo-suu-tap" class="menu-item">Bộ Sưu Tập</a>
+                <a href="/chinh-sach" class="menu-item">Chính Sách Đổi Trả</a>
+                <a href="/orders/track" class="menu-item">Tra cứu đơn</a>
+                <a href="/about-us" class="menu-item">Về Chúng Tôi</a>
+            </div>
+
+            <div class="hh-nav-right d-flex align-items-center gap-3">
+                <a href="/cart" class="cart-icon-btn"
+                    style="position: relative; color: var(--black-color); text-decoration: none; font-size: 20px; margin-right: 15px;">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-badge"
+                        style="position: absolute; top: -8px; right: -10px; background: #e53935; color: white; border-radius: 50%; font-size: 11px; font-weight: 800; padding: 2px 6px;"
+                        th:text="${@shoppingCart.itemCount}">0</span>
+                </a>
+
+                <div sec:authorize="isAnonymous()">
+                    <a href="/login" class="hh-btn-quote text-decoration-none">
+                        Quản trị
+                        <div class="qa-circle"><i class="fa-solid fa-user"></i></div>
+                    </a>
+                </div>
+
+                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center"
+                    style="display: flex; align-items: center; gap: 12px;">
+                    <span class="fw-bold px-2 text-dark" style="font-weight: 700;">Hi, <span
+                            sec:authentication="name"></span></span>
+                    <a sec:authorize="hasAnyRole('ADMIN', 'STAFF')" href="/dashboard"
+                        class="btn-auth btn-auth-outline">Quản trị</a>
+                    <form th:action="@{/logout}" method="post" class="m-0" style="margin: 0;">
+                        <button type="submit" class="btn-auth btn-auth-solid">Đăng xuất</button>
+                    </form>
+                </div>
+
+                <button class="hh-hamburger" id="hh-toggle" aria-label="Mở menu">
+                    <span class="hh-bars" aria-hidden="true"></span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <section class="hero-sneaker">
+        <img class="hero-bg-img" src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780428686/banner_qmg1c1.png"
+            alt="Huy and Hung Sneaker Banner">
+        <div class="hero-overlay"></div>
+        <div class="hero-dots"></div>
+        <div class="hero-glow1"></div>
+        <div class="hero-glow2"></div>
+
+        <div class="container-wrap" style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+            <div class="hero-inner">
+                <div class="hero-tag">HUY AND HUNG SNEAKER PREMIUM</div>
+                <h1>Huy and Hung Sneaker - Giày Sneaker Chính Hãng & Phong Cách Cực Chất</h1>
+                <p class="hero-desc">Chúng tôi mang đến những mẫu giày Sneaker chuẩn ngầu, tối ưu form dáng chân và cam
+                    kết chất lượng bền bỉ tuyệt đối. Đẳng cấp trên từng bước đi của bạn.</p>
+
+                <div class="badge-strip">
+                    <span class="badge g"><i class="fa-solid fa-shield-halved"></i> Bảo Hành 6 Tháng</span>
+                    <span class="badge g"><i class="fa-solid fa-truck-fast"></i> Ship COD Toàn Quốc</span>
+                    <span class="badge"><i class="fa-solid fa-rotate"></i> Đổi Size Trong 7 Ngày</span>
+                    <span class="badge">Kiểm Hàng Trước</span>
+                </div>
+
+                <div class="hero-btns">
+                    <a href="#products" class="btn-hh btn-solid">Mua ngay - Giảm 10%</a>
+                    <a href="#huong-dan-size" class="btn-hh btn-line">Nhận Tư Vấn Size</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="hs">
+                        <div class="hs-num">50k+</div>
+                        <div class="hs-lbl">Khách Hàng Tin Dùng</div>
+                    </div>
+                    <div class="hs">
+                        <div class="hs-num">300+</div>
+                        <div class="hs-lbl">Mẫu Sneaker Sẵn Hàng</div>
+                    </div>
+                    <div class="hs">
+                        <div class="hs-num">100%</div>
+                        <div class="hs-lbl">Cam kết chất lượng</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Vấn đề & Giải pháp (Problem & Solution) -->
+    <section id="problem-solution" class="section-pad" style="background: white;">
+        <div class="container-wrap" style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+            <div class="section-eyebrow" style="text-align: center;">Nỗi Đau & Cam Kết</div>
+            <h2 class="section-title" style="text-align: center; margin-bottom: 40px;">Tại Sao 90% Khách Hàng Sợ Mua
+                Sneaker Online?</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-top: 40px;">
+                <div style="flex: 1; min-width: 280px; max-width: 550px;">
+                    <div
+                        style="background: #fff5f5; border-left: 4px solid #e53935; padding: 24px; border-radius: 12px;">
+                        <h4 style="color: #e53935; margin-bottom: 16px; font-weight: 800; font-size: 17px;"><i
+                                class="fa-solid fa-triangle-exclamation"></i> Những Nỗi Lo Thường Trực:</h4>
+                        <ul
+                            style="list-style-type: none; padding-left: 0; line-height: 1.8; font-weight: 600; color: #555; margin: 0;">
+                            <li style="margin-bottom: 12px;"><i class="fa-solid fa-xmark"
+                                    style="color: #e53935; margin-right: 8px;"></i> Mua nhầm hàng kém chất lượng, keo
+                                bong, vải sờn.</li>
+                            <li style="margin-bottom: 12px;"><i class="fa-solid fa-xmark"
+                                    style="color: #e53935; margin-right: 8px;"></i> Chọn sai size giày dẫn đến đau chân,
+                                không thể di chuyển thoải mái.</li>
+                            <li style="margin-bottom: 0;"><i class="fa-solid fa-xmark"
+                                    style="color: #e53935; margin-right: 8px;"></i> Shop từ chối hỗ trợ đổi trả, chậm
+                                trễ phản hồi khi có sự cố.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="flex: 1; min-width: 280px; max-width: 550px;">
+                    <div
+                        style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 24px; border-radius: 12px;">
+                        <h4 style="color: #16a34a; margin-bottom: 16px; font-weight: 800; font-size: 17px;"><i
+                                class="fa-solid fa-square-check"></i> Giải Pháp Từ Huy & Hung:</h4>
+                        <p
+                            style="line-height: 1.8; color: #444; font-weight: 600; margin-bottom: 12px; font-size: 18px;">
+                            Chúng tôi xây dựng hệ thống với quy trình kiểm định chất lượng chặt chẽ và chính sách chăm
+                            sóc tuyệt đối:</p>
+                        <ul
+                            style="list-style-type: none; padding-left: 0; line-height: 1.8; font-weight: 600; color: #555; margin: 0;">
+                            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check"
+                                    style="color: #16a34a; margin-right: 8px;"></i> Cam kết sneaker chuẩn ngầu, chất
+                                lượng cao cấp tương xứng giá tiền.</li>
+                            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check"
+                                    style="color: #16a34a; margin-right: 8px;"></i> Hỗ trợ đổi size linh hoạt trong 7
+                                ngày, kiểm hàng trước khi thanh toán.</li>
+                            <li style="margin-bottom: 0;"><i class="fa-solid fa-check"
+                                    style="color: #16a34a; margin-right: 8px;"></i> Đội ngũ tư vấn size chuyên nghiệp
+                                theo chuẩn form chân Việt.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Danh mục hot (Bento Grid) -->
+    <section id="categories-grid" class="section-pad" style="background: #faf8f5;">
+        <div class="container-wrap" style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+            <div class="section-eyebrow" style="text-align: center;">Bộ Sưu Tập Xu Hướng</div>
+            <h2 class="section-title" style="text-align: center; margin-bottom: 40px;">Danh Mục Hot Nhất 2026</h2>
+
+            <div class="bento-grid">
+                <!-- Giày Nam -->
+                <div class="bento-item item-nam">
+                    <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780428815/giaynam_v7ro7i.png"
+                        alt="Giày Nam">
+                    <div class="bento-overlay">
+                        <h3>Giày Nam</h3>
+                        <p>Mạnh mẽ, cá tính, dẫn đầu xu hướng streetwear.</p>
+                        <a href="/products" class="btn-bento">Khám Phá</a>
+                    </div>
+                </div>
+
+                <!-- Giày Nữ -->
+                <div class="bento-item item-nu">
+                    <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780428979/adidasnu_ko9fi8.png"
+                        alt="Giày Nữ">
+                    <div class="bento-overlay">
+                        <h3>Giày Nữ</h3>
+                        <p>Thanh lịch, trẻ trung, phối đồ cực chuẩn.</p>
+                        <a href="/products" class="btn-bento">Khám Phá</a>
+                    </div>
+                </div>
+
+                <!-- Giày Chạy Bộ -->
+                <div class="bento-item item-chay">
+                    <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780429024/giaychaybo_fen6e1.png"
+                        alt="Giày Chạy Bộ">
+                    <div class="bento-overlay">
+                        <h3>Giày Chạy Bộ</h3>
+                        <p>Tối ưu đệm chân êm ái.</p>
+                        <a href="/products" class="btn-bento">Xem Thêm</a>
+                    </div>
+                </div>
+
+                <!-- Giày Lifestyle -->
+                <div class="bento-item item-life">
+                    <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780429177/lifestyles_abyo9c.png"
+                        alt="Giày Lifestyle">
+                    <div class="bento-overlay">
+                        <h3>Giày Lifestyle</h3>
+                        <p>Dạo phố chuẩn ngầu, tự tin khẳng định cá tính.</p>
+                        <a href="/products" class="btn-bento">Xem Thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="section-pad">
+        <div class="container-wrap" style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+            <div class="section-eyebrow">H&H Premium Drop</div>
+            <div class="phead">
+                <h2 class="section-title">Khám Phá Các Bộ Sưu Tập Hot NHOT</h2>
+                <a href="/products" class="btn-hh btn-line-dark">Xem Tất cả Sản Phẩm</a>
+            </div>
+
+            <div class="tabs-control">
+                <button class="tnav on" data-tab="tab-nike">Nike Core</button>
+                <button class="tnav" data-tab="tab-adidas">Adidas Trend</button>
+                <button class="tnav" data-tab="tab-jordan">Air Jordan</button>
+            </div>
+
+            <div class="tab-content-wrap">
+                <div class="tpanel on" id="tab-nike">
+                    <div class="products-grid">
+                        <div class="pcard">
+                            <div class="pi"><img
+                                    src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780427928/HuyAndHungStore/sneaker_58178708-9149-4aea-b648-2b8149112bf9.png"
+                                    alt="Nike Air Force 1" loading="lazy"></div>
+                            <div class="ptxt">
+                                <h4>Nike Air Force 1 Low</h4>
+                                <p>Thiết kế trường tồn</p>
+                                <div class="mt-2" style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <a href="/orders/checkout?productId=1" class="btn-auth btn-auth-solid">Mua ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pcard">
+                            <div class="pi"><img
+                                    src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780427884/HuyAndHungStore/sneaker_a7f8372e-e406-4003-a88a-0fe5792990ca.png"
+                                    alt="Nike Dunk Low" loading="lazy"></div>
+                            <div class="ptxt">
+                                <h4>Nike Dunk Low Panda</h4>
+                                <p>Biểu tượng streetwear giới trẻ</p>
+                                <div class="mt-2" style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <a href="/orders/checkout?productId=2" class="btn-auth btn-auth-solid">Mua ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pcard">
+                            <div class="pi"><img
+                                    src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780429828/airmax90_v75jaz.png"
+                                    alt="Nike Air Max 90" loading="lazy"></div>
+                            <div class="ptxt">
+                                <h4>Nike Air Max 90</h4>
+                                <p>Cổ điển và êm ái</p>
+                                <div class="mt-2" style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <a href="/orders/checkout?productId=4" class="btn-auth btn-auth-solid">Mua ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tpanel" id="tab-adidas">
+                    <div class="products-grid">
+                        <div class="pcard">
+                            <div class="pi"><img
+                                    src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780428048/HuyAndHungStore/sneaker_7f8f726b-3b05-4339-9120-b87192a1be18.png"
+                                    alt="Adidas Samba" loading="lazy"></div>
+                            <div class="ptxt">
+                                <h4>Adidas Samba OG Black</h4>
+                                <p>Xu hướng Classic Retro thanh lịch</p>
+                                <div class="mt-2" style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <a href="/orders/checkout?productId=3" class="btn-auth btn-auth-solid">Mua ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pcard">
+                            <div class="pi"><img
+                                    src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780428076/HuyAndHungStore/sneaker_142abe02-25b6-425b-bb12-0aba61618ae6.png"
+                                    alt="Adidas Campus" loading="lazy"></div>
+                            <div class="ptxt">
+                                <h4>Adidas Campus 00s</h4>
+                                <p>Phong cách Y2K nổi bật</p>
+                                <div class="mt-2" style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <a href="/orders/checkout?productId=5" class="btn-auth btn-auth-solid">Mua ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pcard">
+                            <div class="pi"><img
+                                    src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780430546/standsmit_uhfdvk.png"
+                                    alt="Adidas Stan Smith" loading="lazy"></div>
+                            <div class="ptxt">
+                                <h4>Adidas Stan Smith</h4>
+                                <p>Tối giản, dễ phối đồ</p>
+                                <div class="mt-2" style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <a href="/orders/checkout?productId=6" class="btn-auth btn-auth-solid">Mua ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tpanel" id="tab-jordan">
+                    <div class="products-grid">
+                        <div class="pcard">
+                            <div class="pi"><img
+                                    src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780428232/HuyAndHungStore/sneaker_eb3f0da4-bb1f-423e-933e-e40d0fe96bc0.png"
+                                    alt="Air Jordan 1" loading="lazy"></div>
+                            <div class="ptxt">
+                                <h4>Air Jordan 1 High OG</h4>
+                                <p>Huyền thoại bóng rổ</p>
+                                <div class="mt-2" style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <a href="/orders/checkout?productId=7" class="btn-auth btn-auth-solid">Mua ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pcard">
+                            <div class="pi"><img
+                                    src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780428260/HuyAndHungStore/sneaker_e4154b8c-cf3f-45f1-8e3a-47675e1841c3.png"
+                                    alt="Air Jordan 4" loading="lazy"></div>
+                            <div class="ptxt">
+                                <h4>Air Jordan 4 Retro</h4>
+                                <p>Thiết kế hầm hố mạnh mẽ</p>
+                                <div class="mt-2" style="margin-top: 10px; display: flex; gap: 8px;">
+                                    <a href="/orders/checkout?productId=8" class="btn-auth btn-auth-solid">Mua ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Lợi ích Độc Quyền (Value Proposition) -->
+    <section class="section-pad" style="background: white;">
+        <div class="container-wrap" style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+            <div class="section-eyebrow" style="text-align: center;">Dịch Vụ Tận Tâm</div>
+            <h2 class="section-title" style="text-align: center; margin-bottom: 45px;">Lợi Ích Độc Quyền Tại Huy & Hung
+            </h2>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div
+                        style="width: 60px; height: 60px; background: rgba(251,140,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: var(--gold-color); font-size: 24px;">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <h4 style="font-weight: 800; font-size: 18px; margin-bottom: 12px; color: var(--black-color);">Hoàn
+                        Tiền 200% Nếu Phát Hiện Fake</h4>
+                    <p style="color: var(--text-muted); font-size: 15.5px; line-height: 1.6; margin: 0;">Cam kết hàng
+                        chính hãng chuẩn ngầu. Hoàn tiền gấp đôi nếu phát hiện hàng giả, kém chất lượng.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div
+                        style="width: 60px; height: 60px; background: rgba(251,140,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: var(--gold-color); font-size: 24px;">
+                        <i class="fa-solid fa-rotate"></i>
+                    </div>
+                    <h4 style="font-weight: 800; font-size: 18px; margin-bottom: 12px; color: var(--black-color);">Đổi
+                        Size Miễn Phí Trong 7 Ngày</h4>
+                    <p style="color: var(--text-muted); font-size: 15.5px; line-height: 1.6; margin: 0;">Đổi size miễn
+                        phí tận nhà trong vòng 7 ngày nếu bạn không mang vừa form chân.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div
+                        style="width: 60px; height: 60px; background: rgba(251,140,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: var(--gold-color); font-size: 24px;">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <h4 style="font-weight: 800; font-size: 18px; margin-bottom: 12px; color: var(--black-color);">Ship
+                        COD Toàn Quốc Kiểm Hàng Trước</h4>
+                    <p style="color: var(--text-muted); font-size: 15.5px; line-height: 1.6; margin: 0;">Nhận hàng tận
+                        tay, được bóc hộp kiểm tra và mang thử trước khi thanh toán tiền.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div
+                        style="width: 60px; height: 60px; background: rgba(251,140,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: var(--gold-color); font-size: 24px;">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <h4 style="font-weight: 800; font-size: 18px; margin-bottom: 12px; color: var(--black-color);">Bảo
+                        Hành keo chỉ 6 Tháng</h4>
+                    <p style="color: var(--text-muted); font-size: 15.5px; line-height: 1.6; margin: 0;">Cam kết bảo
+                        hành tất cả lỗi liên quan đến keo chỉ từ nhà sản xuất trong vòng 6 tháng.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Hướng Dẫn Chọn Size Giày -->
+    <section id="huong-dan-size" class="section-pad" style="background: #faf8f5;">
+        <div class="container-wrap" style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+            <div class="section-eyebrow" style="text-align: center;">Cẩm Nang Mua Sắm</div>
+            <h2 class="section-title" style="text-align: center; margin-bottom: 40px;">Hướng Dẫn Chọn Size Giày chuẩn
+                Xác</h2>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-top: 30px;">
+                <div style="flex: 1; min-width: 280px;">
+                    <h3 style="font-weight: 800; font-size: 20px; color: var(--black-color); margin-bottom: 20px;">Quy
+                        trình đo chiều dài chân:</h3>
+                    <ol style="line-height: 1.8; color: #444; font-weight: 600; padding-left: 20px; margin: 0;">
+                        <li style="margin-bottom: 12px;">Đặt một tờ giấy trắng sát mép tường và đặt chân trần lên giấy.
+                        </li>
+                        <li style="margin-bottom: 12px;">Vạch một đường ở điểm dài nhất của ngón chân (thường là ngón
+                            cái hoặc ngón trỏ).</li>
+                        <li style="margin-bottom: 12px;">Đo khoảng cách từ mép giấy (gót chân) đến vạch ngón chân vừa
+                            đánh dấu (cm).</li>
+                        <li style="margin-bottom: 0;">Đối chiếu chiều dài cm đo được với bảng quy đổi bên cạnh.</li>
+                    </ol>
+                </div>
+                <div style="flex: 1.3; min-width: 280px; width: 100%;">
+                    <div
+                        style="background: white; border: 1px solid #eee; border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); overflow-x: auto; box-sizing: border-box;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; text-align: center; font-size: 18px; min-width: 400px;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid #ddd; font-weight: 800; color: var(--black-color);">
+                                    <th style="padding: 12px 6px;">Chiều dài chân (cm)</th>
+                                    <th style="padding: 12px 6px;">Size Việt Nam</th>
+                                    <th style="padding: 12px 6px;">Size US</th>
+                                    <th style="padding: 12px 6px;">Size UK</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-weight: 600; color: #555;">
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 10px 6px;">23.5 - 24.0</td>
+                                    <td style="padding: 10px 6px; color: var(--gold-color); font-weight: 800;">38</td>
+                                    <td style="padding: 10px 6px;">6.0</td>
+                                    <td style="padding: 10px 6px;">5.5</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 10px 6px;">24.0 - 24.5</td>
+                                    <td style="padding: 10px 6px; color: var(--gold-color); font-weight: 800;">39</td>
+                                    <td style="padding: 10px 6px;">6.5</td>
+                                    <td style="padding: 10px 6px;">6.0</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 10px 6px;">24.5 - 25.0</td>
+                                    <td style="padding: 10px 6px; color: var(--gold-color); font-weight: 800;">40</td>
+                                    <td style="padding: 10px 6px;">7.0</td>
+                                    <td style="padding: 10px 6px;">6.5</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 10px 6px;">25.0 - 25.5</td>
+                                    <td style="padding: 10px 6px; color: var(--gold-color); font-weight: 800;">41</td>
+                                    <td style="padding: 10px 6px;">8.0</td>
+                                    <td style="padding: 10px 6px;">7.5</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 10px 6px;">25.5 - 26.0</td>
+                                    <td style="padding: 10px 6px; color: var(--gold-color); font-weight: 800;">42</td>
+                                    <td style="padding: 10px 6px;">8.5</td>
+                                    <td style="padding: 10px 6px;">8.0</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 6px;">26.0 - 26.5</td>
+                                    <td style="padding: 10px 6px; color: var(--gold-color); font-weight: 800;">43</td>
+                                    <td style="padding: 10px 6px;">9.5</td>
+                                    <td style="padding: 10px 6px;">9.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: Quy trình mua hàng 3 bước -->
+    <section class="section-pad" style="background: white;">
+        <div class="container-wrap" style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+            <div class="section-eyebrow" style="text-align: center;">Dễ Dàng Đặt Hàng</div>
+            <h2 class="section-title" style="text-align: center; margin-bottom: 45px;">Quy Trình Mua Hàng 3 Bước Nhanh
+                Gọn</h2>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div
+                        style="width: 70px; height: 70px; background: var(--black-color); border: 4px solid var(--gold-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: white; font-size: 24px; font-weight: 900;">
+                        1</div>
+                    <h4 style="font-weight: 800; font-size: 18px; margin-bottom: 10px;">Chơn Sneaker & Size</h4>
+                    <p style="color: var(--text-muted); font-size: 15.5px; line-height: 1.6; margin: 0;">Lựa chọn mẫu
+                        giày yêu thích và đối chiếu size chuẩn xác.</p>
+                </div>
+
+                <div class="step-card">
+                    <div
+                        style="width: 70px; height: 70px; background: var(--black-color); border: 4px solid var(--gold-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: white; font-size: 24px; font-weight: 900;">
+                        2</div>
+                    <h4 style="font-weight: 800; font-size: 18px; margin-bottom: 10px;">Nhập Thông Tin Giao Nhận</h4>
+                    <p style="color: var(--text-muted); font-size: 15.5px; line-height: 1.6; margin: 0;">Điền địa chỉ
+                        nhận hàng và thông tin liên hệ một cách bảo mật.</p>
+                </div>
+
+                <div class="step-card">
+                    <div
+                        style="width: 70px; height: 70px; background: var(--black-color); border: 4px solid var(--gold-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: white; font-size: 24px; font-weight: 900;">
+                        3</div>
+                    <h4 style="font-weight: 800; font-size: 18px; margin-bottom: 10px;">Nhơn Hàng & Thanh Toán</h4>
+                    <p style="color: var(--text-muted); font-size: 15.5px; line-height: 1.6; margin: 0;">kiểm tra hàng
+                        trực tiếp tại nhà trước khi thanh toán COD.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 9: Đánh giá t? khách hàng (Social Proof) -->
+    <section class="section-pad" style="background: #faf8f5;">
+        <div class="container-wrap" style="max-width: 100%; margin: 0 auto; box-sizing: border-box;">
+            <div class="section-eyebrow" style="text-align: center;">Social Proof</div>
+            <h2 class="section-title" style="text-align: center; margin-bottom: 45px;">Đánh Giá Từ Khách Hàng Thực Tế
+            </h2>
+
+            <div class="marquee-wrapper">
+                <div class="marquee-content">
+                    <!-- Group 1 -->
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Mình rất sợ mua giày qua mạng vì chân to khó chọn size. Được tư vấn chọn Air Force 1
+                                size 42 vừa khít, giày đi cực êm chân và chuẩn form."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Nguyễn Văn An</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Hà
+                                    Nội</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Giao hàng siêu nhanh. Mở hộp giày thơm phức, keo dán rất đẹp và chắc chắn, được kiểm
+                                hàng rồi mới trả tiền. 10 điểm cho shop."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780427736/HuyAndHungStore/sneaker_12a961cf-8966-491d-991f-8712865213a6.png"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Trần Thị Bích</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Đà
+                                    Nẵng</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Mình mua giày đôi làm quà tặng sinh nhật. Giày bọc hộp chỉnh chu lắm, bảo hành 6 tháng
+                                rất an tâm mua sắm ở shop này."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">Lê
+                                    Hoàng C</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">
+                                    TP.HCM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Đôi Panda Cực Chất, mix đồ đi chơi nổi bật. Chất liệu tốt so với tầm giá, mang êm chân.
+                                Chấm shop 9.5/10."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Phạm Tuấn</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Hải
+                                    Phòng</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Samba on feet siêu đỉnh, shop đóng gói cẩn thận có cả hộp chống sốc. Sẽ tiếp tục ủng hộ
+                                dài dài nhé."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">Ngô
+                                    Diệp</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Bình
+                                    Duong</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group 2 -->
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Mình rất sợ mua giày qua mạng vì chân to khó chọn size. Được tư vấn chọn Air Force 1
+                                size 42 vừa khít, giày đi cực êm chân và chuẩn form."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Nguyễn Văn An</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Hà
+                                    Nội</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Giao hàng siêu nhanh. Mở hộp giày thơm phức, keo dán rất đẹp và chắc chắn, được kiểm
+                                hàng rồi mới trả tiền. 10 điểm cho shop."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780427736/HuyAndHungStore/sneaker_12a961cf-8966-491d-991f-8712865213a6.png"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Trần Thị Bích</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Đà
+                                    Nẵng</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Mình mua giày đôi làm quà tặng sinh nhật. Giày bọc hộp chỉnh chu lắm, bảo hành 6 tháng
+                                rất an tâm mua sắm ở shop này."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">Lê
+                                    Hoàng C</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">
+                                    TP.HCM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Đôi Panda Cực Chất, mix đồ đi chơi nổi bật. Chất liệu tốt so với tầm giá, mang êm chân.
+                                Chấm shop 9.5/10."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Phạm Tuấn</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Hải
+                                    Phòng</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Samba on feet siêu đỉnh, shop đóng gói cẩn thận có cả hộp chống sốc. Sẽ tiếp tục ủng hộ
+                                dài dài nhé."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">Ngô
+                                    Diệp</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Bình
+                                    Duong</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group 3 -->
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Mình rất sợ mua giày qua mạng vì chân to khó chọn size. Được tư vấn chọn Air Force 1
+                                size 42 vừa khít, giày đi cực êm chân và chuẩn form."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Nguyễn Văn An</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Hà
+                                    Nội</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Giao hàng siêu nhanh. Mở hộp giày thơm phức, keo dán rất đẹp và chắc chắn, được kiểm
+                                hàng rồi mới trả tiền. 10 điểm cho shop."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780427736/HuyAndHungStore/sneaker_12a961cf-8966-491d-991f-8712865213a6.png"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Trần Thị Bích</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Đà
+                                    Nẵng</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Mình mua giày đôi làm quà tặng sinh nhật. Giày bọc hộp chỉnh chu lắm, bảo hành 6 tháng
+                                rất an tâm mua sắm ở shop này."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">Lê
+                                    Hoàng C</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">
+                                    TP.HCM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Đôi Panda Cực Chất, mix đồ đi chơi nổi bật. Chất liệu tốt so với tầm giá, mang êm chân.
+                                Chấm shop 9.5/10."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">
+                                    Phạm Tuấn</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Hải
+                                    Phòng</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <blockquote style="margin: 0; padding: 0;">
+                            <div style="color: #ffb703; font-size: 18px; margin-bottom: 12px;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                    class="fa-solid fa-star"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=400"
+                                alt="Feedback"
+                                style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;">
+                            <p
+                                style="font-size: 16px; line-height: 1.8; color: #444; font-weight: 500; font-style: italic; margin-bottom: 20px;">
+                                "Samba on feet siêu đỉnh, shop đóng gói cẩn thận có cả hộp chống sốc. Sẽ tiếp tục ủng hộ
+                                dài dài nhé."</p>
+                        </blockquote>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100"
+                                alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h5 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--black-color);">Ngô
+                                    Diệp</h5>
+                                <p style="margin: 0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Bình
+                                    Duong</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 11: Footer toàn diện -->
+    <footer
+        style="background: var(--black-color); color: #888; padding: 100px 0 40px 0; border-top: 1px solid #222; box-sizing: border-box; position: relative; overflow: hidden;">
+        <!-- Abstract BG Glow -->
+        <div
+            style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(251,140,0,0.05) 0%, transparent 70%); z-index: 0;">
+        </div>
+
+        <div class="container-wrap"
+            style="padding: 0 5%; max-width: 1440px; margin: 0 auto; box-sizing: border-box; position: relative; z-index: 1;">
+            <!-- Newsletter Section -->
+            <div
+                style="background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 1px solid #333; border-radius: 24px; padding: 40px; margin-bottom: 80px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                <div style="flex: 1; min-width: 300px;">
+                    <h3 style="color: white; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">Đăng Ký Nhận Tin
+                        Khuyến Mãi</h3>
+                    <p style="color: #aaa; margin: 0; font-size: 15.5px; line-height: 1.6;">Nhận ngay voucher giảm giá
+                        15% cho đơn hàng đầu tiên của bạn.</p>
+                </div>
+                <div style="flex: 1; min-width: 300px; max-width: 500px; position: relative;">
+                    <input type="email" placeholder="Nhập email của bạn..."
+                        style="width: 100%; background: #222; border: 1px solid #444; color: white; padding: 16px 160px 16px 24px; border-radius: 50px; font-size: 15.5px; outline: none; box-sizing: border-box;">
+                    <button
+                        style="position: absolute; right: 6px; top: 6px; bottom: 6px; background: var(--gold-color); color: white; border: none; border-radius: 50px; padding: 0 32px; font-weight: 800; font-size: 14.5px; cursor: pointer; transition: background 0.3s;">ĐĂNG
+                        KÝ</button>
+                </div>
+            </div>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 50px; margin-bottom: 60px;">
+                <!-- Column 1: Brand Info -->
+                <div style="display: flex; flex-direction: column;">
+                    <a class="hh-logo" href="/"
+                        style="display: inline-block; margin-bottom: 24px; text-decoration: none;">
+                        <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 48px; object-fit: contain;">
+                    </a>
+                    <p style="font-size: 15.5px; line-height: 1.8; color: #aaa; margin-bottom: 30px;">Hệ thống phân phối
+                        giày Sneaker Thời trang Cao cấp, Cam kết chất lượng chuẩn Authentic, bảo hành lỗi keo chỉ 6
+                        tháng, uy tín hàng đầu Việt Nam.</p>
+                    <div style="display: flex; gap: 16px;">
+                        <a href="#"
+                            style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                            onmouseover="this.style.background='var(--gold-color)'"
+                            onmouseout="this.style.background='#222'"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                            onmouseover="this.style.background='var(--gold-color)'"
+                            onmouseout="this.style.background='#222'"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                            onmouseover="this.style.background='var(--gold-color)'"
+                            onmouseout="this.style.background='#222'"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#"
+                            style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                            onmouseover="this.style.background='var(--gold-color)'"
+                            onmouseout="this.style.background='#222'"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: About Us -->
+                <div>
+                    <h4
+                        style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Về Chúng Tôi</h4>
+                    <ul
+                        style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                        <li><a href="/about-us"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Câu Chuyện Thương Hiệu</a></li>
+                        <li><a href="#products"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Bộ Sưu Tập Mới</a></li>
+                        <li><a href="/blogs"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Tin tức Sneaker</a></li>
+                        <li><a href="/tuyen-dung"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Tuyển dụng</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Customer Support -->
+                <div>
+                    <h4
+                        style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Hỗ trợ Khách Hàng</h4>
+                    <ul
+                        style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                        <li><a href="/chinh-sach"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Chính Sách Đổi Trả</a></li>
+                        <li><a href="/chinh-sach"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Chính Sách Bảo Hành</a></li>
+                        <li><a href="#huong-dan-size"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Hướng Dẫn Chọn Size</a></li>
+                        <li><a href="/chinh-sach#faq"
+                                style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='var(--gold-color)'"
+                                onmouseout="this.style.color='#aaa'">Câu Hỏi Thường Gặp (FAQ)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact & Maps -->
+                <div style="grid-column: span auto;">
+                    <h4
+                        style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Địa Chỉ Cửa Hàng</h4>
+                    <div
+                        style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; color: #aaa; font-size: 15.5px; font-weight: 500; line-height: 1.6;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px;"><i
+                                class="fa-solid fa-location-dot" style="color: var(--gold-color); margin-top: 4px;"></i>
+                            <span>Trường Đại học Công Thương TP.HCM<br>140 Lê Trọng Tấn, P. Tây Thạnh, Q. Tân Phú</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-phone"
+                                style="color: var(--gold-color);"></i> <span>Hotline: 0987.654.321</span></div>
+                        <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-envelope"
+                                style="color: var(--gold-color);"></i> <span>support@huyhung-sneaker.com</span></div>
+                    </div>
+
+                    <!-- Google Maps Embed -->
+                    <div
+                        style="border-radius: 16px; overflow: hidden; height: 160px; width: 100%; border: 1px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                        <iframe src="https://www.google.com/maps?q=10.806159,106.626091&z=17&output=embed" width="100%"
+                            height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                style="border-top: 1px solid #222; padding-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+                <div style="font-size: 14.5px; color: #777; font-weight: 500;">
+                    &copy; 2026 Huy & Hung Sneaker. Tất cả Quyền được bảo lưu. Bản Quyền thuộc về Đồ Án Số 7.
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <i class="fa-brands fa-cc-visa" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                    <i class="fa-brands fa-cc-mastercard"
+                        style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                    <i class="fa-brands fa-cc-paypal" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                    <i class="fa-brands fa-cc-apple-pay"
+                        style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Drawer Overlay -->
+    <div class="hh-mobile-overlay" id="hh-overlay"></div>
+    <div class="hh-mobile-drawer" id="hh-drawer">
+        <div class="drawer-header">
+            <a class="hh-logo" href="/" style="display: block; margin-bottom: 30px;">
+                <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 40px; object-fit: contain;">
+            </a>
+            <button class="drawer-close" id="hh-close-btn">&times;</button>
+        </div>
+        <div class="drawer-body">
+            <!-- Navigation Links -->
+            <div class="drawer-accordion">
+                <button class="drawer-item accordion-toggle" id="drawer-prod-toggle">
+                    <span><i class="fa-solid fa-store"></i> Sản Phẩm</span>
+                    <i class="fa-solid fa-chevron-down acc-icon"></i>
+                </button>
+                <div class="drawer-sub-panel" id="drawer-prod-panel">
+                    <div class="sub-group">
+                        <div class="sub-group-title">Nike Basketball</div>
+                        <a href="/products/nike-af1" class="sub-item">Nike Air Force 1</a>
+                        <a href="/products/nike-dunk" class="sub-item">Nike Dunk Low</a>
+                    </div>
+                    <div class="sub-group">
+                        <div class="sub-group-title">Adidas Originals</div>
+                        <a href="/products/adidas-samba" class="sub-item">Adidas Samba OG</a>
+                        <a href="/products/adidas-campus" class="sub-item">Adidas Campus 00s</a>
+                    </div>
+                    <div class="sub-group">
+                        <div class="sub-group-title">Air Jordan Hot</div>
+                        <a href="/products/jordan-1" class="sub-item">Air Jordan 1 High</a>
+                        <a href="/products/jordan-4" class="sub-item">Air Jordan 4 Retro</a>
+                    </div>
+                </div>
+            </div>
+            <a href="#products" class="drawer-item"><i class="fa-solid fa-images"></i> Bộ Sưu Tập</a>
+            <a href="/chinh-sach" class="drawer-item"><i class="fa-solid fa-truck-ramp-box"></i> Chính Sách Đổi Trả</a>
+            <a href="/orders/track" class="drawer-item"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu đơn</a>
+            <a href="/about-us" class="drawer-item"><i class="fa-solid fa-circle-info"></i> Về Chúng Tôi</a>
+
+            <hr class="drawer-divider">
+
+            <!-- Auth Items -->
+            <div sec:authorize="isAnonymous()" class="drawer-auth">
+                <a href="/login" class="btn-auth btn-auth-solid w-100 py-3" style="text-decoration: none;"><i
+                        class="fa-solid fa-right-to-bracket me-2"></i> Quản trị</a>
+            </div>
+
+            <div sec:authorize="isAuthenticated()" class="drawer-auth">
+                <div class="user-greeting mb-3" style="margin-bottom: 15px;">
+                    <i class="fa-solid fa-circle-user fs-4 text-muted me-2"
+                        style="font-size: 20px; margin-right: 8px;"></i>
+                    <span>Hi, <strong sec:authentication="name"></strong></span>
+                </div>
+                <div class="d-flex flex-column gap-2" style="display: flex; flex-direction: column; gap: 8px;">
+                    <a sec:authorize="hasAnyRole('ADMIN', 'STAFF')" href="/dashboard"
+                        class="btn-auth btn-auth-outline w-100 py-2" style="text-decoration: none;"><i
+                            class="fa-solid fa-gauge me-2"></i> Trang Quản trị</a>
+                    <form th:action="@{/logout}" method="post" class="w-100 m-0" style="margin: 0; width: 100%;">
+                        <button type="submit" class="btn-auth btn-auth-solid w-100 py-2" style="width: 100%;"><i
+                                class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+
+</html>

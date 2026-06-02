@@ -1,0 +1,57 @@
+﻿<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse shadow-sm" th:fragment="sidebar" style="min-height: calc(100vh - 48px);">
+    <div class="position-sticky pt-4 sidebar-sticky">
+        <ul class="nav flex-column gap-2 px-2">
+            <li class="nav-item">
+                <a class="nav-link rounded px-3 py-2 text-dark fw-medium" href="/dashboard">
+                    <i class="fa-solid fa-chart-line me-2" style="width: 20px;"></i> Tổng quan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rounded px-3 py-2 text-dark fw-medium" href="/orders">
+                    <i class="fa-solid fa-cart-shopping me-2" style="width: 20px;"></i> Đơn hàng
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rounded px-3 py-2 text-dark fw-medium" href="/products/admin">
+                    <i class="fa-solid fa-box me-2" style="width: 20px;"></i> Sản phẩm
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rounded px-3 py-2 text-dark fw-medium" href="/reports">
+                    <i class="fa-solid fa-file-excel me-2 text-success" style="width: 20px;"></i> Báo cáo Excel
+                </a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link rounded px-3 py-2 text-dark fw-medium" href="/admin/customers">
+                    <i class="fa-solid fa-users me-2 text-info" style="width: 20px;"></i> Khách hàng
+                </a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link rounded px-3 py-2 text-dark fw-medium" href="/admin/staffs">
+                    <i class="fa-solid fa-user-tie me-2 text-secondary" style="width: 20px;"></i> Nhân sự
+                </a>
+            </li>
+        </ul>
+        
+        <hr class="mx-3 mt-5">
+        <div class="px-3">
+            <a href="/" class="btn btn-outline-dark w-100 btn-sm fw-bold">
+                <i class="fa-solid fa-store me-1"></i> Trở về cửa hàng
+            </a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var path = window.location.pathname;
+            var links = document.querySelectorAll('#sidebarMenu .nav-link');
+            links.forEach(function(link) {
+                var href = link.getAttribute('href');
+                if ((href === '/dashboard' && path === '/dashboard') || 
+                    (href !== '/dashboard' && path.startsWith(href))) {
+                    link.classList.add('bg-light', 'text-primary');
+                }
+            });
+        });
+    </script>
+</nav>
+

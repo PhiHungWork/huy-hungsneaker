@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Khách hàng - H&H Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #f3f5f9; --primary-dark: #111111; --text-main: #2b2b2b; --text-muted: #8b92a5; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg-color); color: var(--text-main); }
+        .page-title { font-weight: 800; font-size: 28px; color: #111; margin-bottom: 24px; }
+        .data-card { background: #fff; border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); }
+        .table th { font-weight: 600; color: var(--text-muted); border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
+        .table td { vertical-align: middle; padding: 16px 8px; border-bottom: 1px solid #f8f9fa; }
+        .badge-status { padding: 6px 12px; border-radius: 50px; font-weight: 600; font-size: 12px; }
+        .status-active { background: rgba(32, 201, 151, 0.1); color: #20c997; }
+        .status-locked { background: rgba(255, 99, 132, 0.1); color: #ff6384; }
+        .btn-toggle { font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 8px; transition: all 0.2s; }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-5 mt-4 pb-5">
+            
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i> <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i> <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <h1 class="page-title"><i class="fa-solid fa-users me-2 text-info"></i> Danh sách Khách hàng</h1>
+            
+            <div class="data-card">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Họ & Tên</th>
+                                <th>Tên tài khoản</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Số lần mua</th>
+                                <th>Đã từng mua</th>
+                                <th>Trạng Thái</th>
+                                <th class="text-end">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="u, status : ${customerRows}">
+                                <td class="fw-bold" th:text="${'#' + status.count}"></td>
+                                <td class="fw-medium" th:text="${u.fullName}"></td>
+                                <td th:text="${u.username}"></td>
+                                <td th:text="${u.phone}"></td>
+                                <td>
+                                    <span class="fw-bold" th:text="${u.purchaseCount}">0</span>
+                                </td>
+                                <td style="max-width: 360px;">
+                                    <span th:if="${#strings.isEmpty(u.purchasedProducts)}" class="text-muted">Chưa có</span>
+                                    <span th:unless="${#strings.isEmpty(u.purchasedProducts)}" th:text="${u.purchasedProducts}"></span>
+                                </td>
+                                <td>
+                                    <span th:if="${u.registered and u.enabled}" class="badge-status status-active"><i class="fa-solid fa-check-circle me-1"></i>Hoạt động</span>
+                                    <span th:if="${u.registered and !u.enabled}" class="badge-status status-locked"><i class="fa-solid fa-lock me-1"></i>Bị khóa</span>
+                                    <span th:if="${!u.registered}" class="badge-status" style="background: rgba(13,110,253,0.1); color: #0d6efd;">
+                                        <i class="fa-solid fa-user-clock me-1"></i>Khách vãng lai
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <form th:if="${u.registered}" th:action="@{/admin/accounts/{id}/toggle-status(id=${u.userId})}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-toggle" 
+                                                th:classappend="${u.enabled ? 'btn-outline-danger' : 'btn-outline-success'}"
+                                                th:text="${u.enabled ? 'Khóa TK' : 'Mở Khóa'}">
+                                        </button>
+                                    </form>
+                                    <span th:if="${!u.registered}" class="text-muted small">—</span>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(customerRows)}">
+                                <td colspan="8" class="text-center py-4 text-muted">Chưa có dữ liệu khách hàng.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

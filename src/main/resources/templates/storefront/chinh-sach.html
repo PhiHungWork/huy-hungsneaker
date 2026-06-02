@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Optimization -->
+    <title>Chính Sách | Huy & Hưng Sneaker - Hệ Thống Sneaker Số 1 Việt Nam</title>
+    <meta name="description"
+        content="Khám phá hành trình phát triển, câu chuyện thương hiệu sáng lập bởi Huy & Hưng, giá trị cốt lõi và cam kết chất lượng giày sneaker chính hãng hàng đầu tại Việt Nam.">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        /* Custom styles for About Us page */
+        .about-hero {
+            position: relative;
+            min-height: 60vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1556906781-9a412961c28c?q=80&w=1920') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 100px;
+            box-sizing: border-box;
+        }
+
+        .about-hero-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .about-hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(38px, 6vw, 64px);
+            font-weight: 900;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .about-hero h1 em {
+            font-style: normal;
+            color: var(--gold-color);
+        }
+
+        .about-hero p {
+            font-size: clamp(16px, 2vw, 19px);
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .story-img-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .story-img-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            height: 240px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .story-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .story-img-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .value-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 24px;
+            padding: 50px 35px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+            border-color: var(--gold-color);
+        }
+
+        /* Timeline styling */
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: #eee;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        .timeline-block {
+            position: relative;
+            margin: 50px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .timeline-block::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .timeline-pointer {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gold-color);
+            border: 5px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            left: 50%;
+            margin-left: -12px;
+            top: 20px;
+            z-index: 5;
+        }
+
+        .timeline-content {
+            position: relative;
+            width: 45%;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            box-sizing: border-box;
+        }
+
+        .timeline-content h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--black-color);
+            margin-bottom: 10px;
+        }
+
+        .timeline-content .year {
+            display: inline-block;
+            background: rgba(251, 140, 0, 0.1);
+            color: var(--gold-color);
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 15px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .timeline-block-left .timeline-content {
+            float: left;
+        }
+
+        .timeline-block-right .timeline-content {
+            float: right;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-container::after {
+                left: 30px;
+            }
+
+            .timeline-pointer {
+                left: 30px;
+                margin-left: -12px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                float: right;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scroll-progress" id="sProgress"></div>
+
+    <!-- Header Navigation -->
+    <div id="hh-nav-wrap" style="background: transparent;">
+        <nav class="hh-navbar">
+            <a class="hh-logo" href="/" title="Huy & Hưng Sneaker">
+                <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 40px; object-fit: contain;">
+            </a>
+
+            <div class="hh-links">
+                <div class="hh-dropdown">
+                    <a href="/products" class="menu-item">Sản Phẩm <i class="fa-solid fa-chevron-down"
+                            style="font-size:10px;margin-left:4px;"></i></a>
+                    <div class="hh-dropdown-panel">
+                        <div class="dd-col-left">
+                            <a href="/products/brand/nike" class="dd-cat">Nike Basketball <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                            <a href="/products/brand/adidas" class="dd-cat">Adidas Originals <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                            <a href="/products/brand/jordan" class="dd-cat">Air Jordan Hot <i
+                                    class="fa-solid fa-angle-right"></i></a>
+                        </div>
+                        <div class="dd-col-right" id="dd-sneaker-list">
+                            <a href="/products/nike-af1">Nike Air Force 1</a>
+                            <a href="/products/nike-dunk">Nike Dunk Low</a>
+                            <a href="/products/adidas-samba">Adidas Samba OG</a>
+                            <a href="/products/adidas-campus">Adidas Campus 00s</a>
+                            <a href="/products/jordan-1">Air Jordan 1 High</a>
+                            <a href="/products/jordan-4">Air Jordan 4 Retro</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="/bo-suu-tap" class="menu-item">Bộ Sưu Tập</a>
+                <a href="/chinh-sach" class="menu-item active" style="color: var(--gold-color);">Chính Sách Đổi Trả</a>
+                <a href="/orders/track" class="menu-item">Tra cứu đơn</a>
+                <a href="/about-us" class="menu-item">Về Chúng Tôi</a>
+            </div>
+
+            <div class="hh-nav-right d-flex align-items-center gap-3">
+                <button class="hh-hamburger" id="hBtn" aria-label="Menu"><span class="hh-bars"></span></button>
+                <a href="/cart" class="cart-icon-btn"
+                    style="position: relative; color: var(--black-color); text-decoration: none; font-size: 20px; margin-right: 15px;">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-badge"
+                        style="position: absolute; top: -8px; right: -10px; background: #e53935; color: white; border-radius: 50%; font-size: 11px; font-weight: 800; padding: 2px 6px;"
+                        th:text="${@shoppingCart.itemCount}">0</span>
+                </a>
+
+                <div sec:authorize="isAnonymous()">
+                    <a href="/login" class="hh-btn-quote text-decoration-none">
+                        Quản trị
+                        <div class="qa-circle"><i class="fa-solid fa-user"></i></div>
+                    </a>
+                </div>
+                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center"
+                    style="display: flex; align-items: center; gap: 12px;">
+                    <span class="fw-bold px-2 text-white" style="font-weight: 700;">Hi, <span
+                            sec:authentication="name"></span></span>
+                    <a sec:authorize="hasAnyRole('ADMIN', 'STAFF')" href="/dashboard" class="btn-auth btn-auth-outline"
+                        style="border-color: rgba(255,255,255,0.2); color: white;">Quản trị</a>
+                    <form th:action="@{/logout}" method="post" class="m-0" style="margin: 0;">
+                        <button type="submit" class="btn-auth btn-auth-solid">Đăng xuất</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <main>
+        <section
+            style="position: relative; min-height: 100vh; display:flex; align-items:center; overflow:hidden; background: #0f0f10; padding-top: 72px;">
+            <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780430525/ch%C3%ADnhachdoitra_yrktgw.png"
+                alt="Policy Banner"
+                style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter: brightness(0.45);">
+            <div
+                style="position:absolute; inset:0; background: linear-gradient(100deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.65) 100%);">
+            </div>
+            <div class="container-wrap reveal"
+                style="position:relative; z-index:2; max-width:1260px; margin:0 auto; padding: 80px 40px 70px 40px; box-sizing:border-box; display:flex; justify-content:center; text-align:center;">
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <div
+                        style="display:inline-flex; align-items:center; gap:10px; background: rgba(251,140,0,0.18); border:1px solid rgba(251,140,0,0.45); color:#ffd08a; padding:8px 14px; border-radius:999px; font-size:13px; font-weight:800; letter-spacing:1px; text-transform:uppercase;">
+                        <i class="fa-solid fa-shield-heart"></i> Dịch Vụ & Cam Kết
+                    </div>
+                    <h1
+                        style="font-family:'Outfit',sans-serif; font-size: clamp(38px, 6vw, 68px); font-weight:900; line-height:1.06; color:white; margin:18px 0 14px;">
+                        CHÍNH SÁCH ĐỔI TRẢ<br>MINH BẠCH & NHANH CHÓNG
+                    </h1>
+                    <p style="font-size: 18px; color: rgba(255,255,255,0.84); line-height: 1.8; margin:0 0 24px 0;">
+                        Mua sắm an tâm với quy trình hỗ trợ rõ ràng: đổi size linh hoạt, bảo hành keo chỉ, kiểm tra hàng
+                        trước khi thanh toán và đội ngũ chăm sóc luôn đồng hành cùng bạn.
+                    </p>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+                        <a href="/products" class="btn-auth btn-auth-solid"
+                            style="text-decoration:none; padding: 12px 24px;">Mua sắm ngay</a>
+                        <a href="#chinh-sach" class="btn-auth btn-auth-outline"
+                            style="text-decoration:none; border-color: rgba(255,255,255,0.3); color:white; padding: 12px 24px;">Xem
+                            chi tiết chính sách</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10: Chính sách bán hàng & Bảo hành (Policies) -->
+        <section id="chinh-sach" class="section-pad" style="background: var(--cream-bg);">
+            <div class="container-wrap"
+                style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+                <div class="section-eyebrow" style="text-align: center;">Dịch Vụ & Cam Kết</div>
+                <h2 class="section-title" style="text-align: center; margin-bottom: 50px;">CHÍNH SÁCH BÁN HÀNG HÀNG ĐẦU
+                </h2>
+
+                <div class="policy-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px;">
+                    <!-- Policy Card 1 -->
+                    <div class="policy-card"
+                        style="background: white; border: 1px solid #f0f0f0; border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.3s ease; cursor: default;"
+                        onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.06)'; this.style.borderColor='var(--gold-color)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.02)'; this.style.borderColor='#f0f0f0';">
+                        <div
+                            style="width: 70px; height: 70px; background: rgba(251,140,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; color: var(--gold-color); font-size: 28px;">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </div>
+                        <h3 style="font-weight: 800; font-size: 19px; margin-bottom: 15px; color: var(--black-color);">
+                            Đổi Trả Trong 7 Ngày</h3>
+                        <p
+                            style="color: var(--text-muted); font-size: 15px; line-height: 1.7; margin: 0; font-weight: 500;">
+                            Hỗ trợ đổi size miễn phí tận nhà hoặc trả hàng hoàn tiền nhanh chóng trong vòng 7 ngày nếu
+                            mang không vừa hoặc không ưng ý.</p>
+                    </div>
+
+                    <!-- Policy Card 2 -->
+                    <div class="policy-card"
+                        style="background: white; border: 1px solid #f0f0f0; border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.3s ease; cursor: default;"
+                        onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.06)'; this.style.borderColor='var(--gold-color)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.02)'; this.style.borderColor='#f0f0f0';">
+                        <div
+                            style="width: 70px; height: 70px; background: rgba(251,140,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; color: var(--gold-color); font-size: 28px;">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+                        <h3 style="font-weight: 800; font-size: 19px; margin-bottom: 15px; color: var(--black-color);">
+                            Bảo Hành 6 Tháng</h3>
+                        <p
+                            style="color: var(--text-muted); font-size: 15px; line-height: 1.7; margin: 0; font-weight: 500;">
+                            Cam kết bảo hành sửa chữa miễn phí đối với mọi lỗi liên quan đến keo dán và đường chỉ từ nhà
+                            sản xuất trong vòng 6 tháng.</p>
+                    </div>
+
+                    <!-- Policy Card 3 -->
+                    <div class="policy-card"
+                        style="background: white; border: 1px solid #f0f0f0; border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.3s ease; cursor: default;"
+                        onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.06)'; this.style.borderColor='var(--gold-color)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.02)'; this.style.borderColor='#f0f0f0';">
+                        <div
+                            style="width: 70px; height: 70px; background: rgba(251,140,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; color: var(--gold-color); font-size: 28px;">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <h3 style="font-weight: 800; font-size: 19px; margin-bottom: 15px; color: var(--black-color);">
+                            Ship COD Toàn Quốc</h3>
+                        <p
+                            style="color: var(--text-muted); font-size: 15px; line-height: 1.7; margin: 0; font-weight: 500;">
+                            Giao hàng tận tay toàn quốc. Khách hàng được mở hộp kiểm tra đúng mẫu mã, đúng size và mang
+                            thử trước khi thanh toán.</p>
+                    </div>
+
+                    <!-- Policy Card 4 -->
+                    <div class="policy-card"
+                        style="background: white; border: 1px solid #f0f0f0; border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.3s ease; cursor: default;"
+                        onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.06)'; this.style.borderColor='var(--gold-color)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.02)'; this.style.borderColor='#f0f0f0';">
+                        <div
+                            style="width: 70px; height: 70px; background: rgba(251,140,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; color: var(--gold-color); font-size: 28px;">
+                            <i class="fa-solid fa-certificate"></i>
+                        </div>
+                        <h3 style="font-weight: 800; font-size: 19px; margin-bottom: 15px; color: var(--black-color);">
+                            Cam Kết Authentic 200%</h3>
+                        <p
+                            style="color: var(--text-muted); font-size: 15px; line-height: 1.7; margin: 0; font-weight: 500;">
+                            Hàng tuyển chọn chuẩn chất lượng. Đền bù gấp 2 lần (200%) giá trị hóa đơn nếu phát hiện sản
+                            phẩm giả, hàng nhái, kém uy tín.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 11: Hỏi đáp Thường gặp (FAQ - Accordion) -->
+        <section id="faq" class="section-pad" style="background: white;">
+            <div class="container-wrap"
+                style="padding: 0 40px; max-width: 1260px; margin: 0 auto; box-sizing: border-box;">
+                <div class="section-eyebrow" style="text-align: center;">Hỏi Đáp & Hỗ Trợ</div>
+                <h2 class="section-title" style="text-align: center; margin-bottom: 45px;">Các Câu Hỏi Thường Gặp (FAQ)
+                </h2>
+
+                <div class="accordion" id="faqAccordion" style="max-width: 800px; margin: 0 auto;">
+                    <div class="accordion-item"
+                        style="border: 1px solid #eee; border-radius: 12px; margin-bottom: 16px; overflow: hidden; background: #fdfbf7;">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
+                                style="font-weight: 800; color: var(--black-color); background: transparent; padding: 20px 24px; font-size: 15.5px; box-shadow: none;">
+                                1. Shop có Cam kết chất lượng Sản Phẩm không?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                            data-bs-parent="#faqAccordion">
+                            <div class="accordion-body"
+                                style="padding: 0 24px 20px 24px; font-size: 18px; line-height: 1.8; color: #555; font-weight: 500;">
+                                Huy & Hung Sneaker Cam kết Cung cấp Những mẫu giày được tuyển chọn kỹ lưỡng, keo chỉ
+                                chắc chắn, hoàn trả gấp 2 lần giá trị đơn hàng nếu phát hiện hàng fake chất lượng kém.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item"
+                        style="border: 1px solid #eee; border-radius: 12px; margin-bottom: 16px; overflow: hidden; background: #fdfbf7;">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"
+                                style="font-weight: 800; color: var(--black-color); background: transparent; padding: 20px 24px; font-size: 15.5px; box-shadow: none;">
+                                2. Thời gian và phí vận chuyển COD nhu thể nào?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                            data-bs-parent="#faqAccordion">
+                            <div class="accordion-body"
+                                style="padding: 0 24px 20px 24px; font-size: 18px; line-height: 1.8; color: #555; font-weight: 500;">
+                                Thời gian vận chuyển trung bình từ 2 - 4 ngày tùy địa chỉ của bạn. Phí ship toàn quốc
+                                được Hỗ trợ dẫng giá 30,000 VND và đặc biệt miễn phí vận chuyển cho các hóa đơn trên 1
+                                triệu đồng.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item"
+                        style="border: 1px solid #eee; border-radius: 12px; margin-bottom: 16px; overflow: hidden; background: #fdfbf7;">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
+                                style="font-weight: 800; color: var(--black-color); background: transparent; padding: 20px 24px; font-size: 15.5px; box-shadow: none;">
+                                3. Tôi có được đi thử giày trước khi nhơn không?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                            data-bs-parent="#faqAccordion">
+                            <div class="accordion-body"
+                                style="padding: 0 24px 20px 24px; font-size: 18px; line-height: 1.8; color: #555; font-weight: 500;">
+                                Bạn hoàn toàn được Quyền bóc hộp, kiểm tra đúng mẫu giày, màu sắc, size giày và đi thử
+                                tại chỗ trước khi thanh toán tiền cho nhân viên giao hàng.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-pad" style="background: #111; color: white;">
+            <div class="container-wrap reveal" style="max-width: 1260px; margin: 0 auto;">
+                <div class="section-eyebrow" style="text-align:center; color: var(--gold-color);">Quy Trình Đổi Trả
+                </div>
+                <h2 class="section-title" style="text-align:center; color: white; margin-bottom: 36px;">4 BƯỚC XỬ LÝ
+                    NHANH CHÓNG</h2>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px;">
+                    <div style="background:#1c1c1d; border:1px solid #2f2f30; border-radius:14px; padding:22px;">
+                        <div style="font-size: 28px; font-weight: 900; color: var(--gold-color);">01</div>
+                        <h4 style="font-weight: 800; margin: 8px 0;">Gửi yêu cầu</h4>
+                        <p style="margin:0; color:#c8c8cc;">Gửi mã đơn + mô tả vấn đề qua hotline hoặc fanpage để được
+                            tiếp nhận ngay.</p>
+                    </div>
+                    <div style="background:#1c1c1d; border:1px solid #2f2f30; border-radius:14px; padding:22px;">
+                        <div style="font-size: 28px; font-weight: 900; color: var(--gold-color);">02</div>
+                        <h4 style="font-weight: 800; margin: 8px 0;">Xác nhận điều kiện</h4>
+                        <p style="margin:0; color:#c8c8cc;">Nhân viên kiểm tra điều kiện đổi trả theo chính sách minh
+                            bạch đã công bố.</p>
+                    </div>
+                    <div style="background:#1c1c1d; border:1px solid #2f2f30; border-radius:14px; padding:22px;">
+                        <div style="font-size: 28px; font-weight: 900; color: var(--gold-color);">03</div>
+                        <h4 style="font-weight: 800; margin: 8px 0;">Thu hồi/Giao bù</h4>
+                        <p style="margin:0; color:#c8c8cc;">Shipper đến thu hàng hoặc giao đôi mới theo phương án bạn
+                            chọn.</p>
+                    </div>
+                    <div style="background:#1c1c1d; border:1px solid #2f2f30; border-radius:14px; padding:22px;">
+                        <div style="font-size: 28px; font-weight: 900; color: var(--gold-color);">04</div>
+                        <h4 style="font-weight: 800; margin: 8px 0;">Hoàn tất</h4>
+                        <p style="margin:0; color:#c8c8cc;">Cập nhật trạng thái hoàn tất và tiếp nhận phản hồi để cải
+                            thiện dịch vụ.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-pad" style="background: #f9fafc;">
+            <div class="container-wrap reveal" style="max-width: 1260px; margin: 0 auto;">
+                <div class="section-eyebrow" style="text-align:center;">Điều Khoản Chi Tiết</div>
+                <h2 class="section-title" style="text-align:center; margin-bottom: 30px;">ĐỂ TRÁNH PHÁT SINH KHÔNG MONG
+                    MUỐN</h2>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="value-card">
+                        <h4 style="font-weight:800; margin-bottom: 10px;">Được đổi trả khi</h4>
+                        <ul style="margin:0; padding-left: 18px; color:#666; line-height:1.8;">
+                            <li>Lỗi sản xuất: bung keo/chỉ trong phạm vi bảo hành.</li>
+                            <li>Không vừa size trong thời hạn hỗ trợ đổi size.</li>
+                            <li>Sản phẩm nhận không đúng mẫu theo đơn.</li>
+                        </ul>
+                    </div>
+                    <div class="value-card">
+                        <h4 style="font-weight:800; margin-bottom: 10px;">Không áp dụng khi</h4>
+                        <ul style="margin:0; padding-left: 18px; color:#666; line-height:1.8;">
+                            <li>Sản phẩm đã qua sử dụng sai mục đích.</li>
+                            <li>Tự ý tác động làm hỏng form giày.</li>
+                            <li>Quá thời gian đổi trả theo quy định.</li>
+                        </ul>
+                    </div>
+                    <div class="value-card">
+                        <h4 style="font-weight:800; margin-bottom: 10px;">Mẹo xử lý nhanh</h4>
+                        <ul style="margin:0; padding-left: 18px; color:#666; line-height:1.8;">
+                            <li>Giữ hộp, phụ kiện và hóa đơn điện tử.</li>
+                            <li>Chụp ảnh rõ lỗi cần hỗ trợ trước khi gửi.</li>
+                            <li>Liên hệ sớm để được ưu tiên xử lý.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer
+            style="background: var(--black-color); color: #888; padding: 100px 0 40px 0; border-top: 1px solid #222; box-sizing: border-box; position: relative; overflow: hidden;">
+            <!-- Abstract BG Glow -->
+            <div
+                style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(251,140,0,0.05) 0%, transparent 70%); z-index: 0;">
+            </div>
+
+            <div class="container-wrap"
+                style="padding: 0 5%; max-width: 1440px; margin: 0 auto; box-sizing: border-box; position: relative; z-index: 1;">
+                <!-- Newsletter Section -->
+                <div
+                    style="background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 1px solid #333; border-radius: 24px; padding: 40px; margin-bottom: 80px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                    <div style="flex: 1; min-width: 300px;">
+                        <h3 style="color: white; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">Đăng Ký Nhận
+                            Tin Khuyến Mãi</h3>
+                        <p style="color: #aaa; margin: 0; font-size: 15.5px; line-height: 1.6;">Nhận ngay voucher giảm
+                            giá 15% cho đơn hàng đầu tiên của bạn.</p>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; max-width: 500px; position: relative;">
+                        <input type="email" placeholder="Nhập email của bạn..."
+                            style="width: 100%; background: #222; border: 1px solid #444; color: white; padding: 16px 160px 16px 24px; border-radius: 50px; font-size: 15.5px; outline: none; box-sizing: border-box;">
+                        <button
+                            style="position: absolute; right: 6px; top: 6px; bottom: 6px; background: var(--gold-color); color: white; border: none; border-radius: 50px; padding: 0 32px; font-weight: 800; font-size: 14.5px; cursor: pointer; transition: background 0.3s;">ĐĂNG
+                            KÝ</button>
+                    </div>
+                </div>
+
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 50px; margin-bottom: 60px;">
+                    <!-- Column 1: Brand Info -->
+                    <div style="display: flex; flex-direction: column;">
+                        <a class="hh-logo" href="/"
+                            style="display: inline-block; margin-bottom: 24px; text-decoration: none;">
+                            <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 48px; object-fit: contain;">
+                        </a>
+                        <p style="font-size: 15.5px; line-height: 1.8; color: #aaa; margin-bottom: 30px;">Hệ thống phân
+                            phối giày Sneaker thời trang cao cấp, cam kết chất lượng chuẩn Authentic, bảo hành lỗi keo
+                            chỉ 6 tháng, uy tín hàng đầu Việt Nam.</p>
+                        <div style="display: flex; gap: 16px;">
+                            <a href="#"
+                                style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                                onmouseover="this.style.background='var(--gold-color)'"
+                                onmouseout="this.style.background='#222'"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#"
+                                style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                                onmouseover="this.style.background='var(--gold-color)'"
+                                onmouseout="this.style.background='#222'"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#"
+                                style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                                onmouseover="this.style.background='var(--gold-color)'"
+                                onmouseout="this.style.background='#222'"><i class="fa-brands fa-tiktok"></i></a>
+                            <a href="#"
+                                style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;"
+                                onmouseover="this.style.background='var(--gold-color)'"
+                                onmouseout="this.style.background='#222'"><i class="fa-brands fa-youtube"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: About Us -->
+                    <div>
+                        <h4
+                            style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Về Chúng Tôi</h4>
+                        <ul
+                            style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                            <li><a href="/about-us"
+                                    style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                    onmouseover="this.style.color='var(--gold-color)'"
+                                    onmouseout="this.style.color='#aaa'">Câu Chuyện Thương Hiệu</a></li>
+                            <li><a href="/bo-suu-tap"
+                                    style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                    onmouseover="this.style.color='var(--gold-color)'"
+                                    onmouseout="this.style.color='#aaa'">Bộ Sưu Tập Mới</a></li>
+                            <li><a href="/blogs"
+                                    style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                    onmouseover="this.style.color='var(--gold-color)'"
+                                    onmouseout="this.style.color='#aaa'">Tin tức Sneaker</a></li>
+                            <li><a href="/tuyen-dung"
+                                    style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                    onmouseover="this.style.color='var(--gold-color)'"
+                                    onmouseout="this.style.color='#aaa'">Tuyển dụng</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: Customer Support -->
+                    <div>
+                        <h4
+                            style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Hỗ trợ Khách Hàng</h4>
+                        <ul
+                            style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                            <li><a href="/chinh-sach"
+                                    style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                    onmouseover="this.style.color='var(--gold-color)'"
+                                    onmouseout="this.style.color='#aaa'">Chính Sách Đổi Trả</a></li>
+                            <li><a href="/chinh-sach"
+                                    style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                    onmouseover="this.style.color='var(--gold-color)'"
+                                    onmouseout="this.style.color='#aaa'">Chính Sách Bảo Hành</a></li>
+                            <li><a href="/#huong-dan-size"
+                                    style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                    onmouseover="this.style.color='var(--gold-color)'"
+                                    onmouseout="this.style.color='#aaa'">Hướng Dẫn Chọn Size</a></li>
+                            <li><a href="/chinh-sach#faq"
+                                    style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;"
+                                    onmouseover="this.style.color='var(--gold-color)'"
+                                    onmouseout="this.style.color='#aaa'">Câu Hỏi Thường Gặp (FAQ)</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 4: Contact & Maps -->
+                    <div style="grid-column: span auto;">
+                        <h4
+                            style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Địa Chỉ Cửa Hàng</h4>
+                        <div
+                            style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; color: #aaa; font-size: 15.5px; font-weight: 500; line-height: 1.6;">
+                            <div style="display: flex; align-items: flex-start; gap: 12px;"><i
+                                    class="fa-solid fa-location-dot"
+                                    style="color: var(--gold-color); margin-top: 4px;"></i> <span>Trường Đại học Công
+                                    Thương TP.HCM<br>140 Lê Trọng Tấn, P. Tây Thạnh, Q. Tân Phú</span></div>
+                            <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-phone"
+                                    style="color: var(--gold-color);"></i> <span>Hotline: 0987.654.321</span></div>
+                            <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-envelope"
+                                    style="color: var(--gold-color);"></i> <span>support@huyhung-sneaker.com</span>
+                            </div>
+                        </div>
+
+                        <!-- Google Maps Embed -->
+                        <div
+                            style="border-radius: 16px; overflow: hidden; height: 160px; width: 100%; border: 1px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                            <iframe src="https://www.google.com/maps?q=10.806159,106.626091&z=17&output=embed"
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="border-top: 1px solid #222; padding-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+                    <div style="font-size: 14.5px; color: #777; font-weight: 500;">
+                        &copy; 2026 Huy & Hưng Sneaker. Tất cả quyền được bảo lưu. Bản quyền thuộc về Đồ Án Số 7.
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <i class="fa-brands fa-cc-visa"
+                            style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                            onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                        <i class="fa-brands fa-cc-mastercard"
+                            style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                            onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                        <i class="fa-brands fa-cc-paypal"
+                            style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                            onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                        <i class="fa-brands fa-cc-apple-pay"
+                            style="font-size: 32px; color: #aaa; transition: color 0.3s ease;"
+                            onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Mobile Drawer Overlay -->
+        <div class="hh-mobile-overlay" id="hh-overlay"></div>
+        <div class="hh-mobile-drawer" id="hh-drawer">
+            <div class="drawer-header">
+                <a class="hh-logo" href="/" style="display: block; margin-bottom: 30px;">
+                    <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 40px; object-fit: contain;">
+                </a>
+                <button class="drawer-close" id="hh-close-btn">&times;</button>
+            </div>
+            <div class="drawer-body">
+                <!-- Navigation Links -->
+                <div class="drawer-accordion">
+                    <button class="drawer-item accordion-toggle" id="drawer-prod-toggle">
+                        <span><i class="fa-solid fa-store"></i> Sản Phẩm</span>
+                        <i class="fa-solid fa-chevron-down acc-icon"></i>
+                    </button>
+                    <div class="drawer-sub-panel" id="drawer-prod-panel">
+                        <div class="sub-group">
+                            <div class="sub-group-title">Nike Basketball</div>
+                            <a href="/products/nike-af1" class="sub-item">Nike Air Force 1</a>
+                            <a href="/products/nike-dunk" class="sub-item">Nike Dunk Low</a>
+                        </div>
+                        <div class="sub-group">
+                            <div class="sub-group-title">Adidas Originals</div>
+                            <a href="/products/adidas-samba" class="sub-item">Adidas Samba OG</a>
+                            <a href="/products/adidas-campus" class="sub-item">Adidas Campus 00s</a>
+                        </div>
+                        <div class="sub-group">
+                            <div class="sub-group-title">Air Jordan Hot</div>
+                            <a href="/products/jordan-1" class="sub-item">Air Jordan 1 High</a>
+                            <a href="/products/jordan-4" class="sub-item">Air Jordan 4 Retro</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="/bo-suu-tap" class="drawer-item"><i class="fa-solid fa-images"></i> Bộ Sưu Tập</a>
+                <a href="/chinh-sach" class="drawer-item"><i class="fa-solid fa-truck-ramp-box"></i> Chính Sách Đổi
+                    Trả</a>
+                <a href="/about-us" class="drawer-item"><i class="fa-solid fa-circle-info"></i> Về Chúng Tôi</a>
+
+                <hr class="drawer-divider">
+
+                <!-- Auth Items -->
+                <div sec:authorize="isAnonymous()" class="drawer-auth">
+                    <a href="/login" class="btn-auth btn-auth-solid w-100 py-3" style="text-decoration: none;"><i
+                            class="fa-solid fa-right-to-bracket me-2"></i> Quản trị</a>
+                </div>
+
+                <div sec:authorize="isAuthenticated()" class="drawer-auth">
+                    <div class="user-greeting mb-3" style="margin-bottom: 15px;">
+                        <i class="fa-solid fa-circle-user fs-4 text-muted me-2"
+                            style="font-size: 20px; margin-right: 8px;"></i>
+                        <span>Hi, <strong sec:authentication="name"></strong></span>
+                    </div>
+                    <div class="d-flex flex-column gap-2" style="display: flex; flex-direction: column; gap: 8px;">
+                        <a sec:authorize="hasAnyRole('ADMIN', 'STAFF')" href="/dashboard"
+                            class="btn-auth btn-auth-outline w-100 py-2" style="text-decoration: none;"><i
+                                class="fa-solid fa-gauge me-2"></i> Trang Quản trị</a>
+                        <form th:action="@{/logout}" method="post" class="w-100 m-0" style="margin: 0; width: 100%;">
+                            <button type="submit" class="btn-auth btn-auth-solid w-100 py-2" style="width: 100%;"><i
+                                    class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script th:src="@{/js/main.js}"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const els = document.querySelectorAll(".reveal");
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); });
+                }, { threshold: 0.12 });
+                els.forEach((el) => io.observe(el));
+            });
+        </script>
+</body>
+
+</html>

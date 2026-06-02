@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập Nhật Trạng Thái Đơn Hàng - H&H Sneaker</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f6f8; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f6f8; padding: 40px 0;">
+        <tr>
+            <td align="center">
+                <!-- Outer Card -->
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+                    
+                    <!-- Header Banner -->
+                    <tr>
+                        <td align="center" style="background-color: #111111; padding: 30px 20px; border-bottom: 3px solid #c5a880;">
+                            <h1 style="margin: 0; color: #c5a880; font-size: 28px; font-weight: 800; letter-spacing: 1px;">H&H SNEAKER</h1>
+                            <p style="margin: 5px 0 0 0; color: #a0aec0; font-size: 13px; text-transform: uppercase; letter-spacing: 2px;">Cập nhật trạng thái đơn hàng</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Body Content -->
+                    <tr>
+                        <td style="padding: 40px 30px;">
+                            <h2 style="margin-top: 0; color: #1a202c; font-size: 20px; font-weight: 700;" th:text="'Đơn hàng ' + ${order.orderCode} + ' đã cập nhật'">Cập nhật đơn hàng</h2>
+                            <p style="color: #4a5568; font-size: 15px; line-height: 1.6; margin-bottom: 30px;">
+                                Chào <strong style="color: #1a202c;" th:text="${order.customerName}">Khách hàng</strong>,<br>
+                                Đơn hàng của bạn đã có sự thay đổi trạng thái mới từ hệ thống. Chi tiết cụ thể như sau:
+                            </p>
+                            
+                            <!-- Status Highlight Card -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 30px; background-color: #f8fafc; border: 1px dashed #c5a880; border-radius: 12px; padding: 20px; text-align: center;">
+                                <tr>
+                                    <td>
+                                        <p style="margin: 0; color: #718096; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Trạng thái mới</p>
+                                        <p style="margin: 10px 0 0 0; color: #2ec4b6; font-size: 22px; font-weight: 800; text-transform: uppercase;" th:text="${order.status}">XÁC NHẬN</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Tracking Button -->
+                            <div style="text-align: center; margin-bottom: 40px;">
+                                <a th:href="${trackingUrl}" style="display: inline-block; background-color: #111111; color: #ffffff; text-decoration: none; padding: 14px 30px; font-size: 15px; font-weight: 700; border-radius: 8px; border: 1px solid #c5a880; box-shadow: 0 4px 12px rgba(17,17,17,0.15); transition: background-color 0.2s;">
+                                    THEO DÕI HÀNH TRÌNH ĐƠN
+                                </a>
+                            </div>
+                            
+                            <!-- Section Title: Order Summary -->
+                            <h3 style="margin: 0 0 15px 0; color: #1a202c; font-size: 16px; font-weight: 700; border-bottom: 2px solid #edf2f7; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Tổng quan đơn hàng</h3>
+                            
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="color: #4a5568; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                                <tr>
+                                    <td width="130" style="padding: 6px 0; font-weight: 600; color: #718096;">Mã đơn hàng:</td>
+                                    <td style="padding: 6px 0; color: #1a202c; font-weight: 600;" th:text="${order.orderCode}">ORD-XXXX</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 0; font-weight: 600; color: #718096;">Tổng thanh toán:</td>
+                                    <td style="padding: 6px 0; color: #e53e3e; font-weight: 700;" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' ₫'">2.500.000 ₫</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 0; font-weight: 600; color: #718096;">Người nhận:</td>
+                                    <td style="padding: 6px 0; color: #1a202c;" th:text="${order.customerName}">Nguyen Van A</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 0; font-weight: 600; color: #718096;">Địa chỉ nhận:</td>
+                                    <td style="padding: 6px 0; color: #1a202c;" th:text="${order.customerAddress}">123 Ba Trieu, Hanoi</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer Section -->
+                    <tr>
+                        <td align="center" style="background-color: #f8fafc; padding: 30px; border-top: 1px solid #edf2f7; color: #718096; font-size: 13px; line-height: 1.5;">
+                            <p style="margin: 0 0 10px 0;">Nếu có bất kỳ thắc mắc nào về đơn hàng, quý khách vui lòng liên hệ bộ phận hỗ trợ của chúng tôi.</p>
+                            <p style="margin: 0 0 10px 0;">Hotline: <strong>0999 888 777</strong> | Email: <a href="mailto:support@huyhung-sneaker.com" style="color: #c5a880; text-decoration: none; font-weight: 600;">support@huyhung-sneaker.com</a></p>
+                            <p style="margin: 0; font-size: 12px; color: #a0aec0;">&copy; 2026 Huy & Hưng Sneaker. All rights reserved.</p>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

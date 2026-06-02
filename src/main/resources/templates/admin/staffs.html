@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Nhân sự - H&H Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #f3f5f9; --primary-dark: #111111; --text-main: #2b2b2b; --text-muted: #8b92a5; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg-color); color: var(--text-main); }
+        .page-title { font-weight: 800; font-size: 28px; color: #111; margin-bottom: 0; }
+        .data-card { background: #fff; border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); }
+        .table th { font-weight: 600; color: var(--text-muted); border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
+        .table td { vertical-align: middle; padding: 16px 8px; border-bottom: 1px solid #f8f9fa; }
+        .badge-status { padding: 6px 12px; border-radius: 50px; font-weight: 600; font-size: 12px; }
+        .status-active { background: rgba(32, 201, 151, 0.1); color: #20c997; }
+        .status-locked { background: rgba(255, 99, 132, 0.1); color: #ff6384; }
+        .badge-role { padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .role-admin { background: #111; color: #fff; }
+        .role-staff { background: #eef0f2; color: #111; border: 1px solid #ddd; }
+        .btn-toggle { font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 8px; transition: all 0.2s; }
+        .btn-add { background: #111; color: #fff; font-weight: 700; border-radius: 10px; padding: 10px 24px; }
+        .btn-add:hover { background: #333; color: #fff; }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-5 mt-4 pb-5">
+            
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i> <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i> <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="page-title"><i class="fa-solid fa-user-tie me-2 text-secondary"></i> Quản lý Nhân sự</h1>
+                <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#addStaffModal">
+                    <i class="fa-solid fa-plus me-1"></i> Thêm Nhân Sự
+                </button>
+            </div>
+            
+            <div class="data-card">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Họ & Tên</th>
+                                <th>Tên Quản trị</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Chức vụ</th>
+                                <th>Trạng Thái</th>
+                                <th class="text-end">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="u : ${users}">
+                                <td class="fw-medium" th:text="${u.fullName}"></td>
+                                <td class="fw-bold" th:text="${u.username}"></td>
+                                <td th:text="${u.phone}"></td>
+                                <td>
+                                    <span th:if="${u.role == 'ROLE_ADMIN'}" class="badge-role role-admin">Quản trị viên</span>
+                                    <span th:if="${u.role == 'ROLE_STAFF'}" class="badge-role role-staff">Nhân viên</span>
+                                </td>
+                                <td>
+                                    <span th:if="${u.enabled}" class="badge-status status-active"><i class="fa-solid fa-check-circle me-1"></i>Hoạt động</span>
+                                    <span th:unless="${u.enabled}" class="badge-status status-locked"><i class="fa-solid fa-lock me-1"></i>Bị khóa</span>
+                                </td>
+                                <td class="text-end">
+                                    <form th:if="${u.role != 'ROLE_ADMIN'}" th:action="@{/admin/accounts/{id}/toggle-status(id=${u.id})}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-toggle" 
+                                                th:classappend="${u.enabled ? 'btn-outline-danger' : 'btn-outline-success'}"
+                                                th:text="${u.enabled ? 'Khóa TK' : 'Mở Khóa'}">
+                                        </button>
+                                    </form>
+                                    <span th:if="${u.role == 'ROLE_ADMIN'}" class="text-muted small fw-medium" title="Admin không thể bị khóa"><i class="fa-solid fa-shield-halved"></i> Bất tử</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Modal Thêm Nhân Sự -->
+            <div class="modal fade" id="addStaffModal" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow" style="border-radius: 20px;">
+                  <div class="modal-header border-0 pb-0 mt-3 mx-2">
+                    <h5 class="modal-title fw-bold">Thêm Nhân Sự Mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body p-4">
+                    <form th:action="@{/admin/staffs/add}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Họ & Tên</label>
+                            <input type="text" name="fullName" class="form-control rounded-3 py-2" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Tên Quản trị</label>
+                            <input type="text" name="username" class="form-control rounded-3 py-2" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Mật Khẩu</label>
+                            <input type="password" name="password" class="form-control rounded-3 py-2" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Số Điện Thoại</label>
+                            <input type="text" name="phone" class="form-control rounded-3 py-2" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-muted small">Phân Quyền</label>
+                            <select name="role" class="form-select rounded-3 py-2 fw-medium" required>
+                                <option value="ROLE_STAFF">Nhân viên (Xem, Sửa SP, Đơn hàng)</option>
+                                <option value="ROLE_ADMIN">Quản trị viên (Toàn quyền)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-add w-100 py-3">TẠO TÀI KHOẢN</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

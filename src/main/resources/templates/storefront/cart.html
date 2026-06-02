@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng - Huy and Hưng Sneaker</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body { background: #f8f9fa; }
+        .cart-container { max-width: 1260px; margin: 40px auto; padding: 0 40px; }
+        .cart-header { font-size: 32px; font-weight: 900; margin-bottom: 30px; color: var(--black-color); }
+        .cart-card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 20px; }
+        .cart-item { display: flex; align-items: center; padding: 20px 0; border-bottom: 1px solid #eee; }
+        .cart-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .cart-item img { width: 100px; height: 100px; object-fit: cover; border-radius: 12px; margin-right: 20px; background: #f5f5f5; }
+        .item-info { flex: 1; }
+        .item-title { font-size: 18px; font-weight: 800; color: var(--black-color); text-decoration: none; display: block; margin-bottom: 5px; }
+        .item-size { font-size: 14px; color: #888; font-weight: 600; }
+        .item-price { font-size: 16px; font-weight: 800; color: #e53935; }
+        .qty-control { display: flex; align-items: center; gap: 10px; }
+        .qty-btn { width: 32px; height: 32px; border: 1px solid #ddd; background: white; border-radius: 8px; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+        .qty-btn:hover { background: #eee; }
+        .qty-input { width: 50px; text-align: center; font-weight: 700; border: none; background: transparent; }
+        .item-total { font-size: 18px; font-weight: 900; color: var(--black-color); min-width: 120px; text-align: right; }
+        .btn-remove { background: none; border: none; color: #aaa; font-size: 18px; cursor: pointer; padding: 10px; transition: color 0.2s; }
+        .btn-remove:hover { color: #e53935; }
+        
+        .summary-card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); position: sticky; top: 100px; }
+        .summary-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: 600; color: #555; }
+        .summary-total { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee; font-size: 24px; font-weight: 900; color: #e53935; }
+        .btn-checkout { width: 100%; padding: 16px; background: var(--black-color); color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 16px; text-transform: uppercase; margin-top: 25px; transition: all 0.3s; }
+        .btn-checkout:hover { background: var(--gold-color); color: var(--black-color); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(251,140,0,0.2); }
+    </style>
+</head>
+<body>
+
+<div id="hh-nav-wrap">
+    <nav class="hh-navbar">
+        <a class="hh-logo" href="/" title="Huy & Hưng Sneaker">
+            <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 40px; object-fit: contain;">
+        </a>
+
+        <div class="hh-links">
+            <a href="/products" class="menu-item">Sản Phẩm</a>
+            <a href="/bo-suu-tap" class="menu-item">Bộ Sưu Tập</a>
+            <a href="/chinh-sach" class="menu-item">Chính Sách Đổi Trả</a>
+            <a href="/orders/track" class="menu-item">Tra cứu đơn</a>
+        </div>
+
+        <div class="hh-nav-right d-flex align-items-center gap-3">
+            <a href="/cart" class="cart-icon-btn" style="position: relative; color: var(--black-color); text-decoration: none; font-size: 20px; margin-right: 15px;">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" style="position: absolute; top: -8px; right: -10px; background: #e53935; color: white; border-radius: 50%; font-size: 11px; font-weight: 800; padding: 2px 6px;" th:text="${@shoppingCart.itemCount}">0</span>
+            </a>
+            
+            <div sec:authorize="isAnonymous()">
+                <a href="/login" class="hh-btn-quote text-decoration-none">
+                    Quản trị
+                    <div class="qa-circle"><i class="fa-solid fa-user"></i></div>
+                </a>
+            </div>
+            
+            <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-2">
+                <span class="fw-bold px-2 text-dark">Hi, <span sec:authentication="name"></span></span>
+                <form th:action="@{/logout}" method="post" class="m-0">
+                    <button type="submit" class="btn-auth btn-auth-solid">Đăng xuất</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="cart-container">
+    <h1 class="cart-header"><i class="fa-solid fa-cart-shopping me-2" style="color: var(--gold-color);"></i> Giỏ Hàng Của Bạn</h1>
+    
+    <div class="row">
+        <!-- Cart Items -->
+        <div class="col-lg-8">
+            <div class="cart-card">
+                <div th:if="${cartItems.isEmpty()}" class="text-center py-5">
+                    <i class="fa-solid fa-box-open" style="font-size: 60px; color: #ddd; margin-bottom: 20px;"></i>
+                    <h4 style="font-weight: 800; color: #555;">Giỏ hàng trống</h4>
+                    <p style="color: #888;">Bạn chưa có sản phẩm nào trong giỏ hàng.</p>
+                    <a href="/products" class="btn btn-dark fw-bold px-4 py-2 mt-3 rounded-pill">Tiếp tục mua sắm</a>
+                </div>
+                
+                <div th:unless="${cartItems.isEmpty()}" class="cart-items-list">
+                    <div class="cart-item" th:each="item : ${cartItems}">
+                        <img th:src="${item.imageUrl}" th:alt="${item.productName}">
+                        
+                        <div class="item-info">
+                            <a th:href="@{'/products/' + ${item.productId}}" class="item-title" th:text="${item.productName}">Tên sản phẩm</a>
+                            <div class="item-size">Size: <span th:text="${item.size}">40</span></div>
+                            <div class="item-price" th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' đ'">1,000,000 đ</div>
+                        </div>
+                        
+                        <div class="qty-control me-4">
+                            <form th:action="@{/cart/update}" method="post" class="d-flex align-items-center">
+                                <input type="hidden" name="variantId" th:value="${item.variantId}">
+                                <input type="hidden" name="quantity" th:value="${item.quantity - 1}">
+                                <button type="submit" class="qty-btn" th:disabled="${item.quantity <= 1}">-</button>
+                            </form>
+                            
+                            <input type="text" class="qty-input" th:value="${item.quantity}" readonly>
+                            
+                            <form th:action="@{/cart/update}" method="post" class="d-flex align-items-center">
+                                <input type="hidden" name="variantId" th:value="${item.variantId}">
+                                <input type="hidden" name="quantity" th:value="${item.quantity + 1}">
+                                <button type="submit" class="qty-btn" th:disabled="${item.quantity >= item.maxStock}">+</button>
+                            </form>
+                        </div>
+                        
+                        <div class="item-total" th:text="${#numbers.formatDecimal(item.lineTotal, 0, 'COMMA', 0, 'POINT')} + ' đ'">1,000,000 đ</div>
+                        
+                        <form th:action="@{/cart/remove}" method="post" class="ms-3">
+                            <input type="hidden" name="variantId" th:value="${item.variantId}">
+                            <button type="submit" class="btn-remove" title="Xóa khỏi giỏ"><i class="fa-solid fa-trash-can"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="col-lg-4" th:unless="${cartItems.isEmpty()}">
+            <div class="summary-card">
+                <div class="summary-title">Tóm tắt đơn hàng</div>
+                
+                <div class="summary-row">
+                    <span>Tạm tính (<span th:text="${@shoppingCart.itemCount}">0</span> sản phẩm)</span>
+                    <span th:text="${#numbers.formatDecimal(cartTotal, 0, 'COMMA', 0, 'POINT')} + ' đ'">1,000,000 đ</span>
+                </div>
+                <div class="summary-row">
+                    <span>Phí giao hàng</span>
+                    <span style="color: #16a34a; font-weight: 800;">Miễn phí</span>
+                </div>
+                
+                <div class="summary-total">
+                    <span>Tổng cộng:</span>
+                    <span th:text="${#numbers.formatDecimal(cartTotal, 0, 'COMMA', 0, 'POINT')} + ' đ'">1,000,000 đ</span>
+                </div>
+                
+                <a href="/orders/checkout" class="btn-checkout d-block text-center text-decoration-none">Tiến Hành Thanh Toán <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="/products" class="d-block text-center mt-3 text-decoration-none" style="color: #666; font-weight: 600; font-size: 14px;"><i class="fa-solid fa-arrow-left me-1"></i> Tiếp tục mua sắm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

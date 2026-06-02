@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Optimization -->
+    <title>Bộ Sưu Tập | Huy & Hưng Sneaker - Hệ Thống Sneaker Số 1 Việt Nam</title>
+    <meta name="description" content="Khám phá hành trình phát triển, câu chuyện thương hiệu sáng lập bởi Huy & Hưng, giá trị cốt lõi và cam kết chất lượng giày sneaker chính hãng hàng đầu tại Việt Nam.">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+    <style>
+        /* Custom styles for About Us page */
+        .about-hero {
+            position: relative;
+            min-height: 60vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1556906781-9a412961c28c?q=80&w=1920') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 100px;
+            box-sizing: border-box;
+        }
+        .about-hero-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        .about-hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(38px, 6vw, 64px);
+            font-weight: 900;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .about-hero h1 em {
+            font-style: normal;
+            color: var(--gold-color);
+        }
+        .about-hero p {
+            font-size: clamp(16px, 2vw, 19px);
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .story-img-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .story-img-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            height: 240px;
+            border: 1px solid #f0f0f0;
+        }
+        .story-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .story-img-card:hover img {
+            transform: scale(1.08);
+        }
+        
+        .value-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 24px;
+            padding: 50px 35px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+            border-color: var(--gold-color);
+        }
+        
+        /* Timeline styling */
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: #eee;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+        .timeline-block {
+            position: relative;
+            margin: 50px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .timeline-block::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .timeline-pointer {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gold-color);
+            border: 5px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            left: 50%;
+            margin-left: -12px;
+            top: 20px;
+            z-index: 5;
+        }
+        .timeline-content {
+            position: relative;
+            width: 45%;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            box-sizing: border-box;
+        }
+        .timeline-content h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--black-color);
+            margin-bottom: 10px;
+        }
+        .timeline-content .year {
+            display: inline-block;
+            background: rgba(251,140,0,0.1);
+            color: var(--gold-color);
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+        .timeline-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 15px;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .timeline-block-left .timeline-content {
+            float: left;
+        }
+        .timeline-block-right .timeline-content {
+            float: right;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-container::after {
+                left: 30px;
+            }
+            .timeline-pointer {
+                left: 30px;
+                margin-left: -12px;
+            }
+            .timeline-content {
+                width: calc(100% - 60px);
+                float: right;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="scroll-progress" id="sProgress"></div>
+
+<!-- Header Navigation -->
+<div id="hh-nav-wrap" style="background: transparent;">
+    <nav class="hh-navbar">
+        <a class="hh-logo" href="/" title="Huy & Hưng Sneaker">
+            <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 40px; object-fit: contain;">
+        </a>
+
+        <div class="hh-links">
+            <div class="hh-dropdown">
+                <a href="/products" class="menu-item">Sản Phẩm <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:4px;"></i></a>
+                <div class="hh-dropdown-panel">
+                    <div class="dd-col-left">
+                        <a href="/products/brand/nike" class="dd-cat">Nike Basketball <i class="fa-solid fa-angle-right"></i></a>
+                        <a href="/products/brand/adidas" class="dd-cat">Adidas Originals <i class="fa-solid fa-angle-right"></i></a>
+                        <a href="/products/brand/jordan" class="dd-cat">Air Jordan Hot <i class="fa-solid fa-angle-right"></i></a>
+                    </div>
+                    <div class="dd-col-right" id="dd-sneaker-list">
+                        <a href="/products/nike-af1">Nike Air Force 1</a>
+                        <a href="/products/nike-dunk">Nike Dunk Low</a>
+                        <a href="/products/adidas-samba">Adidas Samba OG</a>
+                        <a href="/products/adidas-campus">Adidas Campus 00s</a>
+                        <a href="/products/jordan-1">Air Jordan 1 High</a>
+                        <a href="/products/jordan-4">Air Jordan 4 Retro</a>
+                    </div>
+                </div>
+            </div>
+            <a href="/bo-suu-tap" class="menu-item active" style="color: var(--gold-color);">Bộ Sưu Tập</a>
+            <a href="/chinh-sach" class="menu-item">Chính Sách Đổi Trả</a>
+            <a href="/orders/track" class="menu-item">Tra cứu đơn</a>
+            <a href="/about-us" class="menu-item">Về Chúng Tôi</a>
+        </div>
+
+        <div class="hh-nav-right d-flex align-items-center gap-3">
+            <button class="hh-hamburger" id="hBtn" aria-label="Menu"><span class="hh-bars"></span></button>
+            <a href="/cart" class="cart-icon-btn" style="position: relative; color: var(--black-color); text-decoration: none; font-size: 20px; margin-right: 15px;">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge" style="position: absolute; top: -8px; right: -10px; background: #e53935; color: white; border-radius: 50%; font-size: 11px; font-weight: 800; padding: 2px 6px;" th:text="${@shoppingCart.itemCount}">0</span>
+            </a>
+            
+            <div sec:authorize="isAnonymous()">
+                <a href="/login" class="hh-btn-quote text-decoration-none">
+                    Quản trị
+                    <div class="qa-circle"><i class="fa-solid fa-user"></i></div>
+                </a>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="d-flex align-items-center" style="display: flex; align-items: center; gap: 12px;">
+                <span class="fw-bold px-2 text-white" style="font-weight: 700;">Hi, <span sec:authentication="name"></span></span>
+                <a sec:authorize="hasAnyRole('ADMIN', 'STAFF')" href="/dashboard" class="btn-auth btn-auth-outline" style="border-color: rgba(255,255,255,0.2); color: white;">Quản trị</a>
+                <form th:action="@{/logout}" method="post" class="m-0" style="margin: 0;">
+                    <button type="submit" class="btn-auth btn-auth-solid">Đăng xuất</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<main>
+    <section class="section-pad" style="min-height: 100vh; display:flex; align-items:center; background: radial-gradient(circle at top right, rgba(251,140,0,0.18), transparent 35%), var(--black-color); color: white;">
+        <div class="container-wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 36px; align-items: center;">
+            <div>
+                <div class="section-eyebrow" style="color: var(--gold-color); letter-spacing: 3px;">H&H Signature Universe</div>
+                <h1 style="font-family: 'Outfit', sans-serif; font-size: clamp(36px, 6vw, 64px); font-weight: 900; line-height: 1.08; margin: 14px 0 18px;">BỘ SƯU TẬP<br>THEO TINH THẦN<br>ĐƯỜNG PHỐ HIỆN ĐẠI</h1>
+                <p style="color: rgba(255,255,255,0.72); line-height: 1.9; max-width: 620px; margin-bottom: 26px;">
+                    Mỗi bộ sưu tập tại H&H là một tuyên ngôn phong cách: từ form giày chuẩn fit chân Việt, vật liệu chọn lọc,
+                    đến phối màu theo xu hướng quốc tế. Không chỉ đẹp trong ảnh, mọi đôi giày đều được tối ưu để mang lâu vẫn êm và ổn định.
+                </p>
+                <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+                    <a href="/products" class="btn-auth btn-auth-solid" style="text-decoration: none;">Khám phá sản phẩm</a>
+                    <a href="/chinh-sach" class="btn-auth btn-auth-outline" style="text-decoration: none; border-color: rgba(255,255,255,0.2); color: white;">Xem chính sách</a>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div style="height: 250px; border-radius: 18px; overflow: hidden;"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=900" alt="Nike collection" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="height: 250px; border-radius: 18px; overflow: hidden;"><img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=900" alt="Adidas collection" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="height: 250px; border-radius: 18px; overflow: hidden;"><img src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?q=80&w=900" alt="Street style sneakers" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div style="height: 250px; border-radius: 18px; overflow: hidden;"><img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=900" alt="Sport shoes" style="width:100%;height:100%;object-fit:cover;"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bo-suu-tap" class="section-pad" style="background: #0f0f10; color: white;">
+        <div class="container-wrap">
+            <div style="text-align:center; margin-bottom: 52px;">
+                <div class="section-eyebrow" style="color: var(--gold-color); letter-spacing: 3px;">Bộ Sưu Tập Nổi Bật</div>
+                <h2 class="section-title" style="color: white;">4 CONCEPT CHỦ ĐẠO 2026</h2>
+                <p style="max-width: 760px; margin: 18px auto 0; color: rgba(255,255,255,0.65); line-height: 1.85;">
+                    Chọn nhanh theo nhu cầu: phối đồ hằng ngày, đi làm năng động, dạo phố cuối tuần, hoặc săn phiên bản limited để nâng tầm outfit.
+                </p>
+            </div>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+                <article style="background:#171719; border:1px solid #262628; border-radius:22px; overflow:hidden;">
+                    <img src="https://images.unsplash.com/photo-1552346154-21d32810baa3?q=80&w=900" alt="Streetwear Essentials" style="height:250px;width:100%;object-fit:cover;">
+                    <div style="padding:24px;">
+                        <div style="color:var(--gold-color);font-size:12px;font-weight:800;letter-spacing:2px;">MÙA HÈ 2026</div>
+                        <h3 style="margin:10px 0 10px; font-size:24px; font-weight:800;">Streetwear Essentials</h3>
+                        <p style="color:#b8b8be; line-height:1.75; margin:0;">Các phối màu linh hoạt, dễ mix cùng denim, cargo, hoodie oversize cho phong cách đường phố hiện đại.</p>
+                    </div>
+                </article>
+                <article style="background:#171719; border:1px solid #262628; border-radius:22px; overflow:hidden;">
+                    <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=900" alt="Retro and Heritage" style="height:250px;width:100%;object-fit:cover;">
+                    <div style="padding:24px;">
+                        <div style="color:var(--gold-color);font-size:12px;font-weight:800;letter-spacing:2px;">DI SẢN VƯỢT THỜI GIAN</div>
+                        <h3 style="margin:10px 0 10px; font-size:24px; font-weight:800;">Retro and Heritage</h3>
+                        <p style="color:#b8b8be; line-height:1.75; margin:0;">Tái hiện tinh thần bóng rổ và văn hóa hip-hop thập niên 80-90 qua những form giày kinh điển.</p>
+                    </div>
+                </article>
+                <article style="background:#171719; border:1px solid #262628; border-radius:22px; overflow:hidden;">
+                    <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=900" alt="Performance and Comfort" style="height:250px;width:100%;object-fit:cover;">
+                    <div style="padding:24px;">
+                        <div style="color:var(--gold-color);font-size:12px;font-weight:800;letter-spacing:2px;">ÊM ÁI VÀ VẬN ĐỘNG</div>
+                        <h3 style="margin:10px 0 10px; font-size:24px; font-weight:800;">Performance and Comfort</h3>
+                        <p style="color:#b8b8be; line-height:1.75; margin:0;">Đệm êm, trọng lượng nhẹ, thoáng khí cao. Phù hợp di chuyển cả ngày, đi học, đi làm và tập nhẹ.</p>
+                    </div>
+                </article>
+                <article style="background:#171719; border:1px solid #262628; border-radius:22px; overflow:hidden;">
+                    <img src="https://images.unsplash.com/photo-1512374382149-4332c6c02150?q=80&w=900" alt="Exclusive Limited" style="height:250px;width:100%;object-fit:cover;">
+                    <div style="padding:24px;">
+                        <div style="color:var(--gold-color);font-size:12px;font-weight:800;letter-spacing:2px;">PHIÊN BẢN GIỚI HẠN</div>
+                        <h3 style="margin:10px 0 10px; font-size:24px; font-weight:800;">Exclusive Limited</h3>
+                        <p style="color:#b8b8be; line-height:1.75; margin:0;">Số lượng thấp, phối màu độc quyền và độ hiếm cao. Dành cho người yêu sưu tầm đúng nghĩa.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad" style="background: #f6f7fa;">
+        <div class="container-wrap">
+            <div style="text-align:center; margin-bottom: 44px;">
+                <div class="section-eyebrow">Vì Sao Chọn H&H</div>
+                <h2 class="section-title">TRẢI NGHIỆM MUA SẮM CHUẨN PREMIUM</h2>
+            </div>
+            <div style="display:grid;grid-template-columns: repeat(auto-fit,minmax(240px,1fr));gap:22px;">
+                <div class="value-card">
+                    <div style="font-size:34px;color:var(--gold-color);margin-bottom:14px;"><i class="fa-solid fa-shield-heart"></i></div>
+                    <h3 style="font-size:22px;font-weight:800;margin-bottom:10px;">Bảo Hành 6 Tháng</h3>
+                    <p style="color:#666;line-height:1.75;margin:0;">Hỗ trợ xử lý lỗi keo chỉ từ nhà sản xuất để bạn yên tâm sử dụng lâu dài.</p>
+                </div>
+                <div class="value-card">
+                    <div style="font-size:34px;color:var(--gold-color);margin-bottom:14px;"><i class="fa-solid fa-rotate-left"></i></div>
+                    <h3 style="font-size:22px;font-weight:800;margin-bottom:10px;">Đổi Size 7 Ngày</h3>
+                    <p style="color:#666;line-height:1.75;margin:0;">Được đổi size linh hoạt nếu chưa vừa chân, hỗ trợ nhanh và quy trình rõ ràng.</p>
+                </div>
+                <div class="value-card">
+                    <div style="font-size:34px;color:var(--gold-color);margin-bottom:14px;"><i class="fa-solid fa-truck-fast"></i></div>
+                    <h3 style="font-size:22px;font-weight:800;margin-bottom:10px;">COD Toàn Quốc</h3>
+                    <p style="color:#666;line-height:1.75;margin:0;">Nhận hàng tận nơi, kiểm tra đúng mẫu và đúng size trước khi thanh toán.</p>
+                </div>
+                <div class="value-card">
+                    <div style="font-size:34px;color:var(--gold-color);margin-bottom:14px;"><i class="fa-solid fa-certificate"></i></div>
+                    <h3 style="font-size:22px;font-weight:800;margin-bottom:10px;">Cam Kết Authentic</h3>
+                    <p style="color:#666;line-height:1.75;margin:0;">Chọn lọc nguồn hàng nghiêm ngặt, ưu tiên chất lượng thật và độ hoàn thiện cao.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad" style="background:white;">
+        <div class="container-wrap">
+            <div style="display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:28px; flex-wrap:wrap;">
+                <div>
+                    <div class="section-eyebrow">Lookbook</div>
+                    <h2 class="section-title" style="margin-bottom:0;">INSPIRATION GÓC PHỐ</h2>
+                </div>
+                <a href="/products" style="text-decoration:none;font-weight:700;color:var(--gold-color);">Xem toàn bộ sản phẩm <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:14px;">
+                <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1200" alt="lookbook 1" style="width:100%;height:420px;object-fit:cover;border-radius:18px;">
+                <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?q=80&w=900" alt="lookbook 2" style="width:100%;height:420px;object-fit:cover;border-radius:18px;">
+                <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=900" alt="lookbook 3" style="width:100%;height:420px;object-fit:cover;border-radius:18px;">
+            </div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:14px;">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=900" alt="lookbook 4" style="width:100%;height:230px;object-fit:cover;border-radius:16px;">
+                <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=900" alt="lookbook 5" style="width:100%;height:230px;object-fit:cover;border-radius:16px;">
+                <img src="https://images.unsplash.com/photo-1579338559194-a162d19bf842?q=80&w=900" alt="lookbook 6" style="width:100%;height:230px;object-fit:cover;border-radius:16px;">
+                <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=900" alt="lookbook 7" style="width:100%;height:230px;object-fit:cover;border-radius:16px;">
+            </div>
+        </div>
+    </section>
+
+    <section class="section-pad" style="background: linear-gradient(135deg, #111 0%, #262626 100%); color:white;">
+        <div class="container-wrap" style="text-align:center; max-width: 900px;">
+            <div class="section-eyebrow" style="color: var(--gold-color);">Ready To Upgrade</div>
+            <h2 style="font-family:'Outfit',sans-serif; font-size: clamp(32px,5vw,52px); font-weight:900; line-height:1.15; margin: 10px 0 16px;">
+                CHỌN ĐÔI GIÀY TIẾP THEO<br>CHO CHẤT RIÊNG CỦA BẠN
+            </h2>
+            <p style="color: rgba(255,255,255,0.72); line-height:1.85; margin:0 auto 24px; max-width:760px;">
+                Từ những thiết kế basic dễ phối đồ cho đến các phối màu limited khó tìm, H&H luôn có lựa chọn phù hợp
+                cho cả nhu cầu đi học, đi làm và đi chơi cuối tuần.
+            </p>
+            <a href="/products" class="btn-auth btn-auth-solid" style="text-decoration:none; padding: 14px 26px;">Mua sắm ngay</a>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer style="background: var(--black-color); color: #888; padding: 100px 0 40px 0; border-top: 1px solid #222; box-sizing: border-box; position: relative; overflow: hidden;">
+    <!-- Abstract BG Glow -->
+    <div style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(251,140,0,0.05) 0%, transparent 70%); z-index: 0;"></div>
+    
+    <div class="container-wrap" style="padding: 0 5%; max-width: 1440px; margin: 0 auto; box-sizing: border-box; position: relative; z-index: 1;">
+        <!-- Newsletter Section -->
+        <div style="background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 1px solid #333; border-radius: 24px; padding: 40px; margin-bottom: 80px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+            <div style="flex: 1; min-width: 300px;">
+                <h3 style="color: white; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">Đăng Ký Nhận Tin Khuyến Mãi</h3>
+                <p style="color: #aaa; margin: 0; font-size: 15.5px; line-height: 1.6;">Nhận ngay voucher giảm giá 15% cho đơn hàng đầu tiên của bạn.</p>
+            </div>
+            <div style="flex: 1; min-width: 300px; max-width: 500px; position: relative;">
+                <input type="email" placeholder="Nhập email của bạn..." style="width: 100%; background: #222; border: 1px solid #444; color: white; padding: 16px 160px 16px 24px; border-radius: 50px; font-size: 15.5px; outline: none; box-sizing: border-box;">
+                <button style="position: absolute; right: 6px; top: 6px; bottom: 6px; background: var(--gold-color); color: white; border: none; border-radius: 50px; padding: 0 32px; font-weight: 800; font-size: 14.5px; cursor: pointer; transition: background 0.3s;">ĐĂNG KÝ</button>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 50px; margin-bottom: 60px;">
+            <!-- Column 1: Brand Info -->
+            <div style="display: flex; flex-direction: column;">
+                <a class="hh-logo" href="/" style="display: inline-block; margin-bottom: 24px; text-decoration: none;">
+                    <img src="https://res.cloudinary.com/dxjwa3jdl/image/upload/v1780432887/logo_mmxmto.png" alt="H&H Logo" style="height: 48px; object-fit: contain;">
+                </a>
+                <p style="font-size: 15.5px; line-height: 1.8; color: #aaa; margin-bottom: 30px;">Hệ thống phân phối giày Sneaker thời trang cao cấp, cam kết chất lượng chuẩn Authentic, bảo hành lỗi keo chỉ 6 tháng, uy tín hàng đầu Việt Nam.</p>
+                <div style="display: flex; gap: 16px;">
+                    <a href="#" style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;" onmouseover="this.style.background='var(--gold-color)'" onmouseout="this.style.background='#222'"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;" onmouseover="this.style.background='var(--gold-color)'" onmouseout="this.style.background='#222'"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;" onmouseover="this.style.background='var(--gold-color)'" onmouseout="this.style.background='#222'"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" style="width: 44px; height: 44px; background: #222; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; font-size: 18px;" onmouseover="this.style.background='var(--gold-color)'" onmouseout="this.style.background='#222'"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <!-- Column 2: About Us -->
+            <div>
+                <h4 style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">Về Chúng Tôi</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                    <li><a href="/about-us" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Câu Chuyện Thương Hiệu</a></li>
+                    <li><a href="/bo-suu-tap" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Bộ Sưu Tập Mới</a></li>
+                    <li><a href="/blogs" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Tin tức Sneaker</a></li>
+                    <li><a href="/tuyen-dung" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Tuyển dụng</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Customer Support -->
+            <div>
+                <h4 style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">Hỗ trợ Khách Hàng</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">
+                    <li><a href="/chinh-sach" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Chính Sách Đổi Trả</a></li>
+                    <li><a href="/chinh-sach" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Chính Sách Bảo Hành</a></li>
+                    <li><a href="/#huong-dan-size" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Hướng Dẫn Chọn Size</a></li>
+                    <li><a href="/chinh-sach#faq" style="color: #aaa; text-decoration: none; font-size: 15.5px; font-weight: 500; transition: color 0.3s ease;" onmouseover="this.style.color='var(--gold-color)'" onmouseout="this.style.color='#aaa'">Câu Hỏi Thường Gặp (FAQ)</a></li>
+                </ul>
+            </div>
+            
+            <!-- Column 4: Contact & Maps -->
+            <div style="grid-column: span auto;">
+                <h4 style="color: white; font-weight: 800; font-size: 18px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px;">Địa Chỉ Cửa Hàng</h4>
+                <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; color: #aaa; font-size: 15.5px; font-weight: 500; line-height: 1.6;">
+                    <div style="display: flex; align-items: flex-start; gap: 12px;"><i class="fa-solid fa-location-dot" style="color: var(--gold-color); margin-top: 4px;"></i> <span>Trường Đại học Công Thương TP.HCM<br>140 Lê Trọng Tấn, P. Tây Thạnh, Q. Tân Phú</span></div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-phone" style="color: var(--gold-color);"></i> <span>Hotline: 0987.654.321</span></div>
+                    <div style="display: flex; align-items: center; gap: 12px;"><i class="fa-solid fa-envelope" style="color: var(--gold-color);"></i> <span>support@huyhung-sneaker.com</span></div>
+                </div>
+                
+                <!-- Google Maps Embed -->
+                <div style="border-radius: 16px; overflow: hidden; height: 160px; width: 100%; border: 1px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                    <iframe src="https://www.google.com/maps?q=10.806159,106.626091&z=17&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <div style="border-top: 1px solid #222; padding-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+            <div style="font-size: 14.5px; color: #777; font-weight: 500;">
+                &copy; 2026 Huy & Hưng Sneaker. Tất cả quyền được bảo lưu. Bản quyền thuộc về Đồ Án Số 7.
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <i class="fa-brands fa-cc-visa" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                <i class="fa-brands fa-cc-mastercard" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                <i class="fa-brands fa-cc-paypal" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+                <i class="fa-brands fa-cc-apple-pay" style="font-size: 32px; color: #aaa; transition: color 0.3s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#aaa'"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Mobile Drawer Overlay -->
+<div class="hh-mobile-overlay" id="hh-overlay"></div>
+<div class="hh-mobile-drawer" id="hh-drawer">
+    <div class="drawer-header">
+        <a class="hh-logo" href="/">
+            <span class="logo-text">H&H<span class="dot">.</span></span>
+        </a>
+        <button class="drawer-close" id="hh-close-btn">&times;</button>
+    </div>
+    <div class="drawer-body">
+        <!-- Navigation Links -->
+        <div class="drawer-accordion">
+            <button class="drawer-item accordion-toggle" id="drawer-prod-toggle">
+                <span><i class="fa-solid fa-store"></i> Sản Phẩm</span>
+                <i class="fa-solid fa-chevron-down acc-icon"></i>
+            </button>
+            <div class="drawer-sub-panel" id="drawer-prod-panel">
+                <div class="sub-group">
+                    <div class="sub-group-title">Nike Basketball</div>
+                    <a href="/products/nike-af1" class="sub-item">Nike Air Force 1</a>
+                    <a href="/products/nike-dunk" class="sub-item">Nike Dunk Low</a>
+                </div>
+                <div class="sub-group">
+                    <div class="sub-group-title">Adidas Originals</div>
+                    <a href="/products/adidas-samba" class="sub-item">Adidas Samba OG</a>
+                    <a href="/products/adidas-campus" class="sub-item">Adidas Campus 00s</a>
+                </div>
+                <div class="sub-group">
+                    <div class="sub-group-title">Air Jordan Hot</div>
+                    <a href="/products/jordan-1" class="sub-item">Air Jordan 1 High</a>
+                    <a href="/products/jordan-4" class="sub-item">Air Jordan 4 Retro</a>
+                </div>
+            </div>
+        </div>
+        <a href="/bo-suu-tap" class="drawer-item"><i class="fa-solid fa-images"></i> Bộ Sưu Tập</a>
+        <a href="/chinh-sach" class="drawer-item"><i class="fa-solid fa-truck-ramp-box"></i> Chính Sách Đổi Trả</a>
+        <a href="/orders/track" class="drawer-item"><i class="fa-solid fa-magnifying-glass"></i> Tra cứu đơn</a>
+        <a href="/about-us" class="drawer-item"><i class="fa-solid fa-circle-info"></i> Về Chúng Tôi</a>
+        
+        <hr class="drawer-divider">
+        
+        <!-- Auth Items -->
+        <div sec:authorize="isAnonymous()" class="drawer-auth">
+            <a href="/login" class="btn-auth btn-auth-solid w-100 py-3" style="text-decoration: none;"><i class="fa-solid fa-right-to-bracket me-2"></i> Quản trị</a>
+        </div>
+        
+        <div sec:authorize="isAuthenticated()" class="drawer-auth">
+            <div class="user-greeting mb-3" style="margin-bottom: 15px;">
+                <i class="fa-solid fa-circle-user fs-4 text-muted me-2" style="font-size: 20px; margin-right: 8px;"></i>
+                <span>Hi, <strong sec:authentication="name"></strong></span>
+            </div>
+            <div class="d-flex flex-column gap-2" style="display: flex; flex-direction: column; gap: 8px;">
+                <a sec:authorize="hasAnyRole('ADMIN', 'STAFF')" href="/dashboard" class="btn-auth btn-auth-outline w-100 py-2" style="text-decoration: none;"><i class="fa-solid fa-gauge me-2"></i> Trang Quản trị</a>
+                <form th:action="@{/logout}" method="post" class="w-100 m-0" style="margin: 0; width: 100%;">
+                    <button type="submit" class="btn-auth btn-auth-solid w-100 py-2" style="width: 100%;"><i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
+
+
+
+
+
+
+

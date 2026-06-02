@@ -1,0 +1,17 @@
+<header th:fragment="header" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow" style="background-color: #111111 !important;">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-5 fw-bold" href="/" style="color: #c5a880; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">H&H Admin</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-nav">
+        <div class="nav-item text-nowrap d-flex align-items-center">
+            <span class="text-white me-3 fw-medium" style="color: rgba(255,255,255,0.85) !important;">Xin chào, Quản trị viên</span>
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="nav-link px-3 bg-transparent border-0 text-white fw-bold" style="transition: color 0.2s; color: rgba(255,255,255,0.85) !important;" onmouseover="this.style.color='#c5a880'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">
+                    Đăng xuất <i class="fa-solid fa-right-from-bracket ms-1"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
