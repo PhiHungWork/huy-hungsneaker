@@ -140,17 +140,7 @@ public class CustomerOrderController {
 
         orderRepository.save(order);
         shoppingCart.clear();
-        NotificationResult notificationResult = notificationService.notifyOrderCreated(order);
-        if (!notificationResult.isCustomerAttempted()) {
-            redirectAttributes.addFlashAttribute("emailStatusLevel", "warning");
-            redirectAttributes.addFlashAttribute("emailStatusMessage", "Chưa nhập Email, không thể gửi thông báo đơn hàng.");
-        } else if (notificationResult.isCustomerSent()) {
-            redirectAttributes.addFlashAttribute("emailStatusLevel", "success");
-            redirectAttributes.addFlashAttribute("emailStatusMessage", "Thông tin đơn hàng đã được gửi tới email của bạn.");
-        } else {
-            redirectAttributes.addFlashAttribute("emailStatusLevel", "danger");
-            redirectAttributes.addFlashAttribute("emailStatusMessage", "Không thể gửi email thông báo. Vui lòng kiểm tra lại cấu hình SMTP.");
-        }
+        notificationService.notifyOrderCreated(order);
 
         return "redirect:/orders/success/" + order.getId();
     }

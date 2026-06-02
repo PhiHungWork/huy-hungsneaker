@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Async;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -37,7 +38,8 @@ public class NotificationServiceImpl implements NotificationService {
     private String adminEmail;
 
     @Override
-    public NotificationResult notifyOrderCreated(Order order) {
+    @Async
+    public void notifyOrderCreated(Order order) {
         String trackingUrl = webBaseUrl + "/orders/track?orderCode=" + urlEncode(order.getOrderCode()) + "&phone=" + urlEncode(order.getCustomerPhone());
 
         // 1. Admin Email Content (Plain text)
@@ -71,10 +73,11 @@ public class NotificationServiceImpl implements NotificationService {
             log.error("Failed to render order-created-email template: {}", ex.getMessage(), ex);
         }
 
-        return dispatch(order, "ORDER_CREATED", adminSubject, adminContent, false, customerSubject, customerHtmlContent, true);
+        dispatch(order, "ORDER_CREATED", adminSubject, adminContent, false, customerSubject, customerHtmlContent, true);
     }
 
     @Override
+    @Async
     public void notifyOrderStatusChanged(Order order) {
         String trackingUrl = webBaseUrl + "/orders/track?orderCode=" + urlEncode(order.getOrderCode()) + "&phone=" + urlEncode(order.getCustomerPhone());
 
