@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -31,6 +32,9 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private TemplateEngine templateEngine;
 
+    @Autowired
+    private com.example.QuanLiThuChi.repository.OrderRepository orderRepository;
+
     @Value("${spring.mail.username:}")
     private String fromEmail;
 
@@ -39,7 +43,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Async
-    public void notifyOrderCreated(Order order) {
+    @Transactional(readOnly = true)
+    public void notifyOrderCreated(Order orderParam) {
+        Order order = orderRepository.findById(orderParam.getId()).orElse(orderParam);
         String trackingUrl = webBaseUrl + "/orders/track?orderCode=" + urlEncode(order.getOrderCode()) + "&phone=" + urlEncode(order.getCustomerPhone());
 
         // 1. Admin Email Content (Plain text)
@@ -78,7 +84,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Async
-    public void notifyOrderStatusChanged(Order order) {
+    @Transactional(readOnly = true)
+    public void notifyOrderStatusChanged(Order orderParam) {
+        Order order = orderRepository.findById(orderParam.getId()).orElse(orderParam);
         String trackingUrl = webBaseUrl + "/orders/track?orderCode=" + urlEncode(order.getOrderCode()) + "&phone=" + urlEncode(order.getCustomerPhone());
 
         // 1. Admin Email Content (Plain text)
