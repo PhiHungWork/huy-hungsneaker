@@ -1,5 +1,10 @@
 # 👟 Dự Án Hệ Thống Thương Mại Điện Tử - Huy & Hưng Sneaker
 
+- **Giảng Viên:** Nguyễn Thanh Tài
+- **Thành Viên:** Nguyễn Phúc Huy MSSV: 2033210984
+- **Thành Viên:** Trần Nguyễn Phi Hưng MSSV: 2033216439
+- **Website:** [https://huyhung-sneaker.onrender.com/](https://huyhung-sneaker.onrender.com/)
+
 **Huy & Hưng Sneaker** là một hệ thống thương mại điện tử chuyên cung cấp giày thể thao kết hợp nền tảng quản lý doanh thu (Revenue Management) chuyên nghiệp. Dự án được xây dựng dựa trên kiến trúc Monolithic với Spring Boot (Java), phân rã luồng xử lý rõ ràng giữa Khách hàng (Storefront) và Quản trị viên (Admin Dashboard).
 
 ---
@@ -110,3 +115,26 @@ Hệ thống hoạt động với 2 luồng xử lý độc lập nhưng liên k
   Áp dụng mô hình Interceptor/Security Filter chia tách rõ ràng:
   - **Public APIs**: Ai cũng có thể vào mua hàng.
   - **Protected APIs**: Chỉ có tài khoản role Admin (có BCrypt Password Hash) mới được truy cập Dashboard và các Endpoints báo cáo doanh thu.
+
+- **Quản Lý Tồn Kho Thông Minh & An Toàn Dữ Liệu (Smart Inventory & Data Integrity):**
+  - **Xử lý chuỗi an toàn (Safe String Parsing):** Khi tạo hàng loạt Size bằng chuỗi (VD: "38, 39, 40"), thuật toán Java Stream tự động xử lý `distinct()` và `substring()` để chặn đứng các lỗi sập DB do trùng lặp dữ liệu (Unique Constraint) hoặc tràn trường dữ liệu (Data Truncation Exception).
+  - **Cơ chế Soft-Sync (Bảo vệ Khóa Ngoại):** Khi cập nhật danh sách Size, hệ thống thiết kế theo cơ chế chỉ **thêm mới** và **bỏ qua thao tác xóa** các Size cũ. Điều này nhằm bảo vệ toàn vẹn dữ liệu tuyệt đối cho các Hóa đơn (Order) trong quá khứ đang tham chiếu đến Size đó, triệt tiêu rủi ro lỗi `DataIntegrityViolationException`.
+  - **Rào chắn Logic Đa tầng:** Tồn kho của một Size mới khởi tạo luôn tự động bằng `0` (tránh bán khống). Giao diện quản trị chặn nhập kho số âm. Ở giao diện Storefront, hệ thống chủ động kiểm tra `stock <= 0` để ngay lập tức làm mờ và vô hiệu hóa nút mua của Size hết hàng.
+
+- **Cơ Chế Phê Duyệt Nội Dung (Workflow Approval Mechanism):**
+  - Hệ thống áp dụng mô hình phân quyền chặt chẽ ở mức **Thao tác Dữ liệu**. Nhân viên (Staff) không được phép can thiệp trực tiếp vào danh mục đang bán (Live Catalog). Mọi thao tác Thêm/Sửa đều được đóng gói vào bảng trung gian `ProductApproval`. Chỉ khi Admin rà soát và nhấn "Duyệt", dữ liệu mới được đồng bộ sang bảng chính. Kiến trúc này giúp ngăn ngừa hoàn toàn các rủi ro từ lỗi con người (human errors) hoặc sự cố gian lận nội bộ.
+
+- **Quản Trị Giỏ Hàng & Chống Đặt Vượt Kho (Session-based Cart & Over-ordering Prevention):**
+  - Giỏ hàng được quản lý In-Memory thông qua bean `@SessionScope` thay vì lưu liên tục xuống DB, mang lại tốc độ truy xuất tức thì. Đặc biệt, hệ thống giải quyết rất mượt bài toán "Cạnh tranh số lượng": Khi người dùng cố tình cập nhật số lượng trong giỏ hàng lớn hơn tồn kho thực tế, thuật toán tự động ép (force) `quantity = item.getMaxStock()`. Lớp bảo vệ kép này ngăn chặn tuyệt đối tình trạng Over-sold (bán vượt số lượng thực tế).
+
+- **Xử Lý Lỗi Mượt Mà & Điều Hướng An Toàn (Graceful Error Handling):**
+  - Thay vì hiển thị các trang báo lỗi 500/404 thô kệch mặc định của Spring Boot (White-label Error Page) khi người dùng cố truy cập sản phẩm ảo hoặc mua hàng ngừng bán, hệ thống chủ động bắt ngoại lệ (Exception Catching). Backend sử dụng cơ chế `RedirectAttributes (Flash Attributes)` để điều hướng người dùng về nơi an toàn kèm theo các thông báo (Toast/Alert) cực kỳ thân thiện và tinh tế (VD: "Số lượng trong kho không đủ cho size này!").
+
+- **Tính Toàn Vẹn Giao Dịch & Quản Lý Doanh Thu Chặt Chẽ (ACID Transaction Integrity):**
+  - Trái tim của Hệ thống Quản lý Doanh thu (Topic 7) nằm ở luồng đặt hàng. Phương thức Checkout được bọc chặt bởi `@Transactional(rollbackFor = Exception.class)`. Nếu có bất kỳ sự cố nào xảy ra giữa chừng (lỗi mạng, rớt mạng, lỗi lưu chi tiết đơn hàng), toàn bộ quá trình trừ kho và tính doanh thu sẽ bị hủy bỏ (Rollback). Đảm bảo tuyệt đối không có "đơn hàng ảo" hay "tiền mất mà kho không trừ".
+
+- **Chống Đụng Độ Giao Dịch (Race Condition Prevention & Double Validation):**
+  - Hệ thống kiểm tra số lượng tồn kho **2 lần (Double Check)**: Một lần ở Giỏ hàng và một lần cuối cùng ngay phần nghìn giây trước khi chốt đơn (Place Order). Điều này giải quyết hoàn hảo bài toán "Race Condition" trong thương mại điện tử: Nếu có 2 khách hàng cùng bấm thanh toán đôi giày cuối cùng ở cùng 1 phần nghìn giây, người chậm hơn 1 tích tắc sẽ bị chặn lại và thông báo hết hàng, bảo vệ hệ thống khỏi số lượng tồn kho âm.
+
+- **Tự Động Hóa Trạng Thái Xuyên Suốt (Automated Status Propagation):**
+  - Ngay sau khi khách hàng đặt đơn thành công, hệ thống không chỉ trừ kho của Size đó mà còn dùng SQL Aggregate (Hàm SUM) để đếm lại toàn bộ tồn kho của đôi giày. Nếu tổng tồn kho của tất cả các Size rơi xuống 0, trạng thái của Đôi giày (Product) sẽ tự động bật sang `OUT_OF_STOCK` (Ngừng bán). Sự đồng bộ ngầm này giúp Admin rảnh tay hoàn toàn, hệ thống tự vận hành mà không cần con người can thiệp.

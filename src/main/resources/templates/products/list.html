@@ -88,6 +88,7 @@
                                 <th>Hình Ảnh</th>
                                 <th>Tên Sản Phẩm</th>
                                 <th>Thương Hiệu</th>
+                                <th>Các Size</th>
                                 <th>Giá Bán</th>
                                 <th>Số Lượng Tồn</th>
                                 <th>Trạng Thái</th>
@@ -100,6 +101,7 @@
                                 <td><img th:src="${product.imageUrl}" class="rounded" width="50" height="50" style="object-fit:cover"></td>
                                 <td class="fw-bold" th:text="${product.name}"></td>
                                 <td><span class="badge bg-secondary" th:text="${product.brand}"></span></td>
+                                <td class="text-muted small fw-medium" th:text="${productSizesMap[product.id]}"></td>
                                 <td class="text-danger fw-bold" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
                                 <td>
                                     <span class="fw-bold" th:text="${productStockMap[product.id]}">0</span>
@@ -111,6 +113,12 @@
                                 </td>
                                 <td class="text-end px-4">
                                     <div class="d-inline-block">
+                                        <button sec:authorize="hasRole('ADMIN')" type="button" class="btn btn-sm btn-outline-success manage-stock-btn"
+                                                th:data-id="${product.id}"
+                                                th:data-name="${product.name}"
+                                                title="Quản lý kho">
+                                            <i class="fa-solid fa-box"></i>
+                                        </button>
                                         <button type="button" class="btn btn-sm btn-outline-primary edit-product-btn" 
                                                 th:data-id="${product.id}"
                                                 th:data-code="${product.code}"
@@ -120,6 +128,7 @@
                                                 th:data-imageurl="${product.imageUrl}"
                                                 th:data-categoryid="${product.category != null ? product.category.id : ''}"
                                                 th:data-status="${product.status}"
+                                                th:data-sizes="${productSizesMap[product.id]}"
                                                 data-bs-toggle="modal" data-bs-target="#editProductModal"
                                                 title="Sửa sản phẩm">
                                             <i class="fa-solid fa-pen"></i>
@@ -174,6 +183,10 @@
                             <small class="text-muted">Hoặc nhập link ảnh cũ nếu không đổi:</small>
                             <input type="text" name="imageUrl" class="form-control rounded-3 mt-1" placeholder="http://...">
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Size Giày (Các size cách nhau bằng dấu phẩy)</label>
+                            <input type="text" name="sizes" class="form-control rounded-3 py-2" placeholder="Ví dụ: 38, 39, 40">
+                        </div>
                         <div class="mb-4">
                             <label class="form-label fw-semibold text-muted small">Trạng Thái</label>
                             <select name="status" class="form-select rounded-3 py-2 fw-medium" required>
@@ -227,6 +240,11 @@
                             <small class="text-muted">Link ảnh cũ:</small>
                             <input type="text" id="editImageUrl" name="imageUrl" class="form-control rounded-3 mt-1" readonly>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-muted small">Thêm Size Giày mới (Bỏ qua nếu không muốn thêm)</label>
+                            <input type="text" id="editSizes" name="sizes" class="form-control rounded-3 py-2" placeholder="Ví dụ: 38, 39">
+                            <small class="text-muted d-block mt-1">Size hiện tại: <span id="currentSizesDisplay" class="fw-bold text-dark"></span></small>
+                        </div>
                         <div class="mb-4">
                             <label class="form-label fw-semibold text-muted small">Trạng Thái</label>
                             <select id="editStatus" name="status" class="form-select rounded-3 py-2 fw-medium" required>
@@ -236,6 +254,26 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-dark w-100 py-3 rounded-3 fw-bold">CẬP NHẬT SẢN PHẨM</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Quản Lý Kho -->
+            <div class="modal fade" id="manageStockModal" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow" style="border-radius: 20px;">
+                  <div class="modal-header border-0 pb-0 mt-3 mx-2">
+                    <h5 class="modal-title fw-bold">Quản Lý Tồn Kho - <span id="stockProductName" class="text-primary"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body p-4">
+                    <form id="manageStockForm" method="post" action="/products/admin/update-stock">
+                        <div id="stockInputsContainer">
+                            <div class="text-center text-muted">Đang tải...</div>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 py-3 rounded-3 fw-bold mt-4"><i class="fa-solid fa-floppy-disk me-2"></i>LƯU THAY ĐỔI</button>
                     </form>
                   </div>
                 </div>
@@ -255,6 +293,7 @@
                             const imageUrl = this.getAttribute('data-imageurl');
                             const categoryId = this.getAttribute('data-categoryid');
                             const status = this.getAttribute('data-status');
+                            const sizes = this.getAttribute('data-sizes');
 
                             document.getElementById('editProductForm').action = '/products/admin/edit/' + id;
                             document.getElementById('editCode').value = code;
@@ -264,6 +303,48 @@
                             document.getElementById('editImageUrl').value = imageUrl;
                             document.getElementById('editCategoryId').value = categoryId;
                             document.getElementById('editStatus').value = status;
+                            document.getElementById('currentSizesDisplay').innerText = sizes ? sizes : 'Chưa có';
+                        });
+                    });
+
+                    const manageStockBtns = document.querySelectorAll('.manage-stock-btn');
+                    manageStockBtns.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            const name = this.getAttribute('data-name');
+                            
+                            document.getElementById('stockProductName').innerText = name;
+                            const container = document.getElementById('stockInputsContainer');
+                            container.innerHTML = '<div class="text-center text-muted my-4"><i class="fa-solid fa-spinner fa-spin fa-2x"></i><div class="mt-2">Đang tải...</div></div>';
+                            
+                            var myModal = new bootstrap.Modal(document.getElementById('manageStockModal'));
+                            myModal.show();
+                            
+                            fetch('/products/admin/' + id + '/variants')
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.length === 0) {
+                                        container.innerHTML = '<div class="alert alert-warning border-0 rounded-3"><i class="fa-solid fa-triangle-exclamation me-2"></i> Sản phẩm này chưa có size nào. Hãy chỉnh sửa sản phẩm để thêm size trước.</div>';
+                                        return;
+                                    }
+                                    
+                                    let html = '';
+                                    data.forEach(variant => {
+                                        html += `
+                                        <div class="d-flex align-items-center justify-content-between mb-3 p-3 border rounded-3 bg-light">
+                                            <div class="fw-bold fs-5 text-dark">Size ${variant.size}</div>
+                                            <div class="d-flex align-items-center">
+                                                <label class="me-3 text-muted small fw-medium mb-0">Số lượng:</label>
+                                                <input type="number" name="stock_${variant.id}" value="${variant.stockQuantity}" min="0" class="form-control text-center fw-bold" style="width: 120px; font-size: 1.1rem;">
+                                            </div>
+                                        </div>
+                                        `;
+                                    });
+                                    container.innerHTML = html;
+                                })
+                                .catch(error => {
+                                    container.innerHTML = '<div class="alert alert-danger border-0 rounded-3"><i class="fa-solid fa-circle-xmark me-2"></i> Lỗi khi tải dữ liệu kho.</div>';
+                                });
                         });
                     });
                 });

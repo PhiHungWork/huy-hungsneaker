@@ -40,6 +40,9 @@ public class ProductApproval {
     @Column(length = 20)
     private String desiredStatus;
 
+    @Column(length = 255)
+    private String sizes;
+
     @Column(nullable = false, length = 20)
     private String action; // ADD, EDIT, DELETE
 
